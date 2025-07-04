@@ -1,0 +1,1082 @@
+/* --- Global Styles & Desktop Layout --- */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    overflow: hidden; /* Controls main scroll behavior for desktop */
+    background-color: #ffffff;
+}
+
+/* Hide mobile landing by default (for desktop) */
+#mobile-landing {
+    display: none;
+}
+
+.landing-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* Styles for the two split panels */
+.split {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start; /* Aligns content to top of split */
+    text-decoration: none;
+    transition: width 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    padding-top: 20vh;
+    background-color: #ffffff; /* Ensures a white background for the split sections */
+}
+
+#techno { justify-content: flex-start; padding-left: 5vw; }
+#video { justify-content: flex-end; padding-right: 5vw; }
+
+/* Active split panel state (when clicked) */
+.landing-container.left-is-active #techno, 
+.landing-container.right-is-active #video { 
+    width: 90%; 
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.4); /* Shadow for active panel */
+    z-index: 1;
+}
+
+/* Inactive split panel state */
+.landing-container.left-is-active #video, 
+.landing-container.right-is-active #techno { 
+    width: 10%; 
+}
+
+/* Background images within split panels */
+.video-wrapper {
+    position: absolute;
+    inset: 0; /* Top, right, bottom, left to 0 */
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transform: scale(1.05); /* Slightly zoomed for initial state */
+    opacity: 0.7;
+    overflow: hidden;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#video .video-wrapper { background-image: url('images/bg_video.png'); }
+#techno .video-wrapper { background-image: url('images/bg_techno.png'); }
+
+/* Masking for background images (gradient effect) */
+#techno .video-wrapper { 
+    -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%); 
+    mask-image: linear-gradient(to right, black 50%, transparent 100%); 
+}
+#video .video-wrapper { 
+    -webkit-mask-image: linear-gradient(to left, black 50%, transparent 100%); 
+    mask-image: linear-gradient(to left, black 50%, transparent 100%); 
+}
+
+/* Grayscale overlay with masking for hover effect */
+.video-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: inherit; /* Inherits background from parent .video-wrapper */
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%); /* Makes the overlay grayscale */
+    -webkit-mask-size: 200% 100%; /* Allows mask to move across 2x width */
+    mask-size: 200% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    transition: -webkit-mask-position 0.8s cubic-bezier(0.77, 0, 0.175, 1), mask-position 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Initial mask positions for the grayscale overlay */
+#techno .video-wrapper::before { 
+    -webkit-mask-image: linear-gradient(to left, black 45%, transparent 55%); 
+    mask-image: linear-gradient(to left, black 45%, transparent 55%); 
+    -webkit-mask-position: 100% 0; /* Starts off-screen to the right */
+    mask-position: 100% 0; 
+}
+#video .video-wrapper::before { 
+    -webkit-mask-image: linear-gradient(to right, black 45%, transparent 55%); 
+    mask-image: linear-gradient(to right, black 45%, transparent 55%); 
+    -webkit-mask-position: 0% 0; /* Starts off-screen to the left */
+    mask-position: 0% 0; 
+}
+
+/* Hover effects for split panels (when not active) */
+.landing-container:not(.view-active) .split:hover .video-wrapper { 
+    transform: scale(1.1); /* Zoom in background image */
+    opacity: 1; /* Make background image fully opaque */
+}
+.landing-container:not(.view-active) #techno:hover .video-wrapper::before { 
+    -webkit-mask-position: 0% 0; /* Move mask to reveal grayscale */
+    mask-position: 0% 0; 
+}
+.landing-container:not(.view-active) #video:hover .video-wrapper::before { 
+    -webkit-mask-position: 100% 0; /* Move mask to reveal grayscale */
+    mask-position: 100% 0; 
+}
+.landing-container:not(.view-active) .split:hover { cursor: pointer; }
+
+/* Overlay text (portfolio titles) */
+.overlay-text {
+    color: #343a40;
+    z-index: 2;
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Prevents text from interfering with clicks */
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.overlay-text span {
+    display: block;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+.overlay-text .title-main { font-size: 2rem; font-weight: 300; }
+.overlay-text .title-sub { font-size: 5rem; font-weight: 900; }
+
+#techno .overlay-text { text-align: left; transform: translateX(-30px); }
+#video .overlay-text { text-align: right; transform: translateX(30px); }
+
+/* Show overlay text on hover */
+.split:hover .overlay-text { 
+    opacity: 1; 
+    transform: translateX(0); /* Slide in text */
+}
+
+/* Hide overlay text when a view is active */
+.landing-container.view-active .overlay-text { opacity: 0; }
+
+/* Central text container (David Guillemette name & title) */
+.center-text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Hide central text when a view is active */
+.landing-container.view-active .center-text-container { 
+    opacity: 0; 
+    pointer-events: none; /* Make it unclickable when hidden */
+}
+
+.center-text-link {
+    display: inline-block;
+    padding: 20px 40px;
+    color: #333;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+.center-text-link:hover {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Portfolio Content within split panels */
+.portfolio-content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    opacity: 0;
+    /* Règle de base pour la transition (s'applique à la fermeture) :
+       Fade-out rapide de 0.4s SANS délai. */
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+/* Règle pour l'état ACTIF (s'applique à l'ouverture) */
+.landing-container.left-is-active #techno .portfolio-content,
+.landing-container.right-is-active #video .portfolio-content { 
+    opacity: 1; 
+    pointer-events: auto;
+    /* On ajoute un délai à la transition UNIQUEMENT pour l'ouverture,
+       pour laisser le temps au panneau de s'agrandir. */
+    transition-delay: 0.4s;
+}
+
+/* Les styles d'alignement restent séparés pour la propreté */
+.landing-container.left-is-active #techno .portfolio-content { 
+    align-items: flex-start;
+}
+.landing-container.right-is-active #video .portfolio-content { 
+    padding: 0;
+    align-items: flex-start; 
+}
+
+.portfolio-grid {
+    display: flex;
+    gap: 3rem;
+    width: 100%;
+}
+
+.project-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1; /* Each column takes equal space */
+}
+.project-column h4 {
+    color: #343a40;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    font-weight: bold;
+}
+
+.thumbnail {
+    background-color: rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    padding: 0.75rem;
+    border-radius: 5px;
+    color: #343a40;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+.thumbnail:hover { background-color: rgba(0,0,0,0.1); }
+.thumbnail img {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+/* Back arrow button */
+.back-arrow {
+    position: absolute;
+    top: 2rem;
+    z-index: 5; /* Above portfolio content */
+    font-size: 2.5rem;
+    text-decoration: none;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+#techno .back-arrow { right: 2rem; color: #343a40; }
+#video .back-arrow { left: 2rem; color: #343a40; }
+
+/* Show back arrow when a split is active */
+.landing-container.left-is-active #techno .back-arrow, 
+.landing-container.right-is-active #video .back-arrow { 
+    opacity: 1; 
+    pointer-events: auto; 
+}
+.back-arrow:hover { transform: scale(1.1); }
+
+/* Hide video wrapper when active (to show content) */
+.landing-container.left-is-active #techno .video-wrapper,
+.landing-container.right-is-active #video .video-wrapper { 
+    opacity: 0; 
+}
+
+/* Scrollable content area within active split */
+.scrollable-content { 
+    width: 100%; 
+    height: 100%; 
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+.landing-container.left-is-active #techno .scrollable-content,
+.landing-container.right-is-active #video .scrollable-content { 
+    padding: 0; 
+    background-image: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%); 
+}
+
+/* Overall page overlay for subtle texture/shadow */
+.landing-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0.2) 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* --- Contact Section --- */
+#contact-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90vh; /* Takes most of the viewport height */
+    background-color: #f8f9fa;
+    z-index: 20; /* High z-index to overlay other content */
+    transform: translateY(100%); /* Hidden below viewport */
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    display: flex; /* For centering content */
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-y: auto; /* Enable scrolling for contact content if needed */
+}
+
+/* Show contact section when active */
+.landing-container.contact-is-active #contact-section { transform: translateY(0); }
+
+/* Back arrow for contact section */
+#contact-section .back-arrow {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: #343a40;
+    opacity: 1; /* Always visible when section is active */
+    pointer-events: auto;
+}
+
+.portrait {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Contact form styles */
+#contact-form .form-control {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+}
+
+#success-message {
+    border: 1px solid #198754;
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* --- Lightbox Styles --- */
+body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox is open */
+
+#lightbox-container {
+    position: fixed;
+    inset: 0; /* Occupies full viewport */
+    z-index: 1060; /* Above Bootstrap modals (1050) */
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none; /* Unclickable when hidden */
+    transition: opacity 0.4s ease;
+}
+
+#lightbox-container.is-visible { 
+    opacity: 1; 
+    pointer-events: auto; 
+}
+
+#lightbox-content {
+    background-color: #fff;
+    color: #343a40;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 1140px;
+    max-height: 90vh;
+    overflow-y: auto; /* Enable scrolling within lightbox content */
+    transform: scale(0.95); /* Slightly scaled down when hidden */
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.project-info-container { padding: 2rem; }
+
+#lightbox-container.is-visible #lightbox-content { transform: scale(1); } /* Scale up when visible */
+
+#lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    filter: invert(1) grayscale(100%) brightness(200%); /* White 'x' icon */
+}
+
+/* Responsive video container for iframes */
+.modal-video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width * 100) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+}
+.modal-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Lightbox carousel controls */
+#lightbox-container .carousel-control-prev, 
+#lightbox-container .carousel-control-next {
+    width: 3rem;
+    height: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+#lightbox-container .carousel-control-prev { left: 1rem; }
+#lightbox-container .carousel-control-next { right: 1rem; }
+#lightbox-container .carousel-control-prev:hover, 
+#lightbox-container .carousel-control-next:hover { opacity: 1; }
+
+#lightbox-container .carousel-control-prev-icon, 
+#lightbox-container .carousel-control-next-icon { 
+    width: 1.5rem; 
+    height: 1.5rem; 
+}
+
+/* --- Technopedagogy Section Specific Styles --- */
+.techno-creative-container-v2 {
+    width: 100%;
+    color: #343a40;
+}
+
+.techno-hero-section {
+    position: relative;
+    height: 60vh;
+    color: #ffffff;
+    background-image: url('images/generique/techno-hero.png');
+    background-size: cover;
+    background-position: right center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.techno-hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to left, rgba(0,0,0,0) 00%, rgba(0,0,0,0.7) 60%);
+}
+
+/* Le contenu du hero est maintenant centré et plus large */
+.techno-hero-section .hero-text-content {
+    max-width: 55%;
+}
+
+.techno-content-wrapper {
+    padding: 4rem;
+}
+
+.techno-intro-story {
+    padding: 2rem 0;
+}
+
+.techno-advantage {
+    padding: 2rem 0;
+}
+
+.advantage-icon {
+    font-size: 2.5rem;
+    width: 5rem;
+    height: 5rem;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+/* Styles pour les piliers (légèrement ajustés pour le contexte) */
+.pillar-card {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Assure que les cartes ont la même hauteur */
+}
+.pillar-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.pillar-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #fff;
+}
+.pillar-header i { font-size: 1.5rem; }
+.pillar-header h3 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+
+#pillar-lms .pillar-header { background: linear-gradient(135deg, #495057, #212529); }
+#pillar-module .pillar-header { background: linear-gradient(135deg, #0d6efd, #0558ca); }
+
+.pillar-body { 
+    padding: 1.5rem; 
+    flex-grow: 1;
+}
+.pillar-desc { min-height: 90px; } /* Ajusté pour le nouveau texte */
+
+.tech-stack-title, .showcase-title {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.tech-stack-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+.tech-stack-list li {
+    padding-left: 1.75rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+.tech-stack-list li::before {
+    content: '\f26a';
+    font-family: 'bootstrap-icons';
+    position: absolute;
+    left: 0;
+    color: #198754;
+}
+
+.superpowers-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem; /* Ajout d'une marge en bas */
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.superpowers-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.superpowers-list i {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+.superpowers-list div strong { 
+    display: block; 
+    font-weight: 700; 
+}
+.superpowers-list div span { 
+    font-size: 0.9rem; 
+    color: #6c757d; 
+}
+
+.project-thumb {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e9ecef;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+.project-thumb:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-color: #dee2e6;
+}
+.project-thumb img {
+    width: 100px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+}
+.project-thumb-info h6 { 
+    margin-bottom: 0.25rem; 
+    font-weight: bold; 
+}
+.project-thumb .stretched-link {
+    color: #0d6efd;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.project-thumb .stretched-link i { 
+    transition: transform 0.2s ease; 
+}
+.project-thumb:hover .stretched-link i { transform: translateX(5px); }
+
+/* --- Video Section Specific Styles --- */
+.video-creative-container {
+    width: 100%;
+}
+
+.video-hero-section {
+    position: relative;
+    height: 60vh;
+    color: #ffffff;
+    background-image: url('images/generique/video-bg01.jpg');
+    background-size: cover;
+    background-position: left center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.video-hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(0,0,0,0) 20%, rgba(0,0,0,0.7) 55%);
+}
+
+.hero-text-content {
+    position: relative;
+    z-index: 2;
+    max-width: 50%;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    padding: 2rem 5%;
+}
+
+.video-content-wrapper {
+    padding: 4rem;
+}
+
+.category-description {
+    font-style: italic;
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #0d6efd;
+}
+
+.video-services-section { padding: 2rem 0; }
+
+.service-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.service-step {
+    text-align: center;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #e9ecef;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.service-button {
+    cursor: pointer;
+}
+
+.service-button:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border-color: #0d6efd;
+}
+
+.service-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Specific colors for each service button hover overlay */
+.service-button[data-lightbox="brainstorm"] .service-hover-overlay {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.9), rgba(253, 126, 20, 0.9)); /* Orange/Yellow */
+}
+
+.service-button[data-lightbox="tournage"] .service-hover-overlay {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.9), rgba(253, 126, 20, 0.9)); /* Red */
+}
+
+.service-button[data-lightbox="postproduction"] .service-hover-overlay {
+    background: linear-gradient(135deg, rgba(111, 66, 193, 0.9), rgba(90, 45, 145, 0.9)); /* Purple */
+}
+
+.service-button[data-lightbox="livraison"] .service-hover-overlay {
+    background: linear-gradient(135deg, rgba(25, 135, 84, 0.9), rgba(40, 167, 69, 0.9)); /* Green */
+}
+
+.service-button:hover .service-hover-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.service-cta {
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.service-cta i {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.service-button:hover .service-cta i {
+    transform: translateX(5px);
+}
+
+.service-step-icon {
+    font-size: 2.5rem;
+    width: 5rem;
+    height: 5rem;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+.service-step h5 { 
+    font-weight: 700; 
+    margin-bottom: 0.75rem; 
+}
+.service-step p { 
+    color: #6c757d; 
+    font-size: 0.9rem; 
+}
+
+/* --- CTA Section Styles --- */
+.cta-section {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    margin-top: 3rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #0d6efd;
+    color: #ffffff;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px; /* Pill shape */
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+}
+
+.cta-button:hover {
+    background-color: #0b5ed7;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+}
+
+.cta-button i {
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    font-size: 1.2rem;
+}
+
+.cta-button:hover i {
+    transform: translateX(5px);
+}
+
+/* --- Mobile Styles --- */
+@media (max-width: 992px) {
+    html { scroll-behavior: smooth; }
+    body, html { 
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    #mobile-landing {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100vh;
+        padding: 1.5rem;
+        background-color: #343a40;
+        color: white;
+    }
+
+    .center-text-container, 
+    .back-arrow, 
+    .landing-container .video-wrapper, 
+    .landing-container .overlay-text, 
+    .landing-container::after { 
+        display: none !important; 
+    }
+
+    .landing-container { 
+        flex-direction: column;
+        height: auto; 
+        display: block;
+    }
+    .split { 
+        width: 100% !important;
+        height: auto; 
+        padding: 0;
+        background-color: #f8f9fa !important;
+        color: #343a40;
+        scroll-margin-top: 2rem;
+    }
+
+    .portfolio-content {
+        position: static;
+        opacity: 1;
+        pointer-events: auto;
+        padding: 0;
+        display: block;
+        transition: none;
+    }
+
+    .portfolio-grid {
+        display: flex;
+        flex-direction: column;
+        transform: none;
+        gap: 2.5rem;
+    }
+
+    #video, #techno { 
+        background-color: #ffffff !important; 
+    }
+    
+    .scrollable-content { 
+        height: auto; 
+        overflow-y: visible; 
+        padding: 0; 
+    }
+
+    #contact-section {
+        position: static;
+        height: auto;
+        transform: none;
+        padding: 4rem 1.5rem;
+        background-color: #f8f9fa;
+        color: #343a40;
+        scroll-margin-top: 2rem;
+        display: block;
+    }
+    #contact-section .back-arrow, #lightbox-container { 
+        display: none !important; 
+    }
+    .portrait { margin-top: 2rem; }
+    .project-info-container { padding: 1.5rem; }
+    
+    /* --- Styles Mobile pour les sections Hero --- */
+    .techno-hero-section,
+    .video-hero-section {
+        height: auto;
+        min-height: 50vh;
+        padding: 4rem 1.5rem;
+        text-align: center;
+        justify-content: center;
+    }
+    .techno-hero-section::before,
+    .video-hero-section::before {
+        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+    }
+    .hero-text-content {
+        max-width: 100%;
+        padding: 0;
+    }
+    .techno-content-wrapper,
+    .video-content-wrapper {
+        padding: 4rem 1.5rem;
+    }
+    .video-services-section {
+        padding: 0;
+    }
+    
+    .cta-section {
+        padding: 4rem 0;
+    }
+	
+}
+/* --- Web Development Section Styles --- */
+.web-dev-section {
+    padding: 3rem 0;
+}
+
+.web-dev-card {
+    position: relative;
+    background: linear-gradient(135deg, #212529, #343a40);
+    color: #ffffff;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    min-height: 400px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    transition: box-shadow 0.4s ease;
+}
+
+.web-dev-card:hover {
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+}
+
+.web-dev-content {
+    flex: 1 1 55%; /* Prend 55% de l'espace */
+    padding: 3rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.web-dev-icon {
+    font-size: 3rem;
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.web-dev-intro {
+    max-width: 500px;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.web-dev-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease;
+}
+
+.web-dev-card:hover .web-dev-details {
+    max-height: 200px; /* Hauteur suffisante pour le contenu */
+    opacity: 1;
+}
+
+.tech-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tech-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.tech-list i {
+    color: #198754; /* Vert succès de Bootstrap */
+}
+
+.web-dev-visual {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 45%;
+    z-index: 1;
+    clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%); /* Forme en diagonale */
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.web-dev-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    transition: opacity 0.4s ease;
+}
+
+.web-dev-card:hover .web-dev-visual {
+    transform: scale(1.05);
+}
+
+.web-dev-card:hover .web-dev-visual img {
+    opacity: 0.4;
+}
+
+/* --- Styles Mobile pour la section Web Dev --- */
+@media (max-width: 992px) {
+    .web-dev-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .web-dev-content {
+        flex-basis: auto;
+        padding: 2rem;
+    }
+
+    .web-dev-details {
+        /* Les détails sont toujours visibles sur mobile */
+        max-height: 200px;
+        opacity: 1;
+    }
+
+    .web-dev-visual {
+        position: relative;
+        width: 100%;
+        height: 200px; /* Hauteur fixe pour l'image sur mobile */
+        clip-path: none; /* Pas de forme en diagonale */
+    }
+    .web-dev-visual img {
+        opacity: 0.4;
+    }
+}
