@@ -101,7 +101,7 @@ body, html {
 }
 #video .video-wrapper::before { 
     -webkit-mask-image: linear-gradient(to right, black 45%, transparent 55%); 
-    mask-image: linear-gradient(to right, black 45%, transparent 55%); 
+    mask-image: linear-image(to right, black 45%, transparent 55%); 
     -webkit-mask-position: 0% 0; /* Starts off-screen to the left */
     mask-position: 0% 0; 
 }
@@ -394,7 +394,18 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     max-height: 90vh;
     overflow-y: auto; /* Enable scrolling within lightbox content */
     transform: scale(0.95); /* Slightly scaled down when hidden */
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s ease;
+}
+
+/* Fade transition classes for lightbox content */
+#lightbox-content.fading-out {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#lightbox-content.fading-in {
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .project-info-container { padding: 2rem; }
@@ -784,6 +795,32 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     background-color: rgba(13, 110, 253, 0.1);
     color: #0d6efd;
 }
+
+/* Specific colors for each service step icon */
+.service-step[data-lightbox="brainstorm"] .service-step-icon {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: white;
+    box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+}
+
+.service-step[data-lightbox="tournage"] .service-step-icon {
+    background: linear-gradient(135deg, #dc3545, #fd7e14);
+    color: white;
+    box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+}
+
+.service-step[data-lightbox="postproduction"] .service-step-icon {
+    background: linear-gradient(135deg, #6f42c1, #5a2d91);
+    color: white;
+    box-shadow: 0 10px 30px rgba(111, 66, 193, 0.3);
+}
+
+.service-step[data-lightbox="livraison"] .service-step-icon {
+    background: linear-gradient(135deg, #198754, #28a745);
+    color: white;
+    box-shadow: 0 10px 30px rgba(25, 135, 84, 0.3);
+}
+
 .service-step h5 { 
     font-weight: 700; 
     margin-bottom: 0.75rem; 
@@ -1080,3 +1117,30 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
         opacity: 0.4;
     }
 }
+
+</file_content>
+
+Now that you have the latest state of the file, try the operation again with fewer, more precise SEARCH blocks. For large files especially, it may be prudent to try to limit yourself to <5 SEARCH/REPLACE blocks at a time, then wait for the user to respond with the result of the operation before following up with another replace_in_file call to make additional edits.
+(If you run into this error 3 times in a row, you may use the write_to_file tool as a fallback.)
+</error><environment_details>
+# VSCode Visible Files
+style.css
+
+# VSCode Open Tabs
+index.html
+lightbox-brainstorm.html
+lightbox-tournage.html
+script.js
+style.css
+lightbox-livraison.html
+lightbox-postproduction.html
+
+# Current Time
+7/3/2025, 10:54:10 PM (America/Toronto, UTC-4:00)
+
+# Context Window Usage
+130,617 / 1,048.576K tokens used (12%)
+
+# Current Mode
+ACT MODE
+</environment_details>

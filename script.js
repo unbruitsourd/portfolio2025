@@ -78,16 +78,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // If lightbox is already visible and content is changing, add fade-out class
+        if (lightboxContainer.classList.contains('is-visible') && lightboxContent.innerHTML !== '') {
+            lightboxContent.classList.add('fading-out');
+            // Wait for fade-out transition to complete before loading new content
+            await new Promise(resolve => setTimeout(resolve, 200)); // Match CSS transition duration
+        }
+
         lightboxContainer.classList.add('is-visible');
         document.body.classList.add('lightbox-open');
 
+        // Show spinner while loading
         lightboxContent.innerHTML = '<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+        lightboxContent.classList.remove('fading-out'); // Remove fade-out if it was there
+        lightboxContent.classList.add('fading-in'); // Prepare for fade-in
 
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const html = await response.text();
+            
+            // Set content and remove fading-in after a short delay to allow transition
             lightboxContent.innerHTML = html;
+            setTimeout(() => {
+                lightboxContent.classList.remove('fading-in');
+            }, 10); // Small delay to ensure class is applied before removal
 
             // Specific logic for project carousels (if any)
             const carouselElement = lightboxContent.querySelector('#project-carousel');
@@ -107,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error("Could not load lightbox content:", error);
             lightboxContent.innerHTML = '<p class="text-center text-danger">Désolé, une erreur est survenue lors du chargement du contenu.</p>';
+            lightboxContent.classList.remove('fading-in');
         }
     }
 
@@ -121,6 +137,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('lightbox-open');
         setTimeout(() => { lightboxContent.innerHTML = ''; }, 400);
     }
+
+    // --- Event Delegation for Lightbox Content ---
+    lightboxContent.addEventListener('click', function(e) {
+        // Check if the click is on an example button within the lightbox
+        const exampleButton = e.target.closest('.example-button');
+        if (exampleButton) {
+            e.preventDefault();
+            const projectFile = exampleButton.dataset.project;
+            openLightbox(projectFile, 'project');
+        }
+    });
 
     // --- Event Listeners ---
     splitLeft.addEventListener('click', (e) => handleSplitClick(e, 'left'));
