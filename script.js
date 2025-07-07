@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {string} sideClicked - 'left' or 'right' indicating which split was clicked.
      */
     function handleSplitClick(e, sideClicked) {
-        if (e.target.closest('a.project-link, [data-bs-toggle="modal"], .cta-button') || contactSection.contains(e.target)) {
+        if (e.target.closest('a.project-link, [data-bs-toggle="modal"], .cta-button, .service-buttons .btn') || contactSection.contains(e.target)) {
             return;
         }
 
@@ -232,34 +232,114 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Service Buttons & Lightbox Logic ---
-    serviceButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const lightboxId = button.dataset.lightbox;
-            openLightbox(lightboxId, 'service');
+    // Video Services Section Functionality - Nouvelle structure avec feature buttons
+    const featureButtons = document.querySelectorAll('.feature-button');
+    const serviceDetailContents = document.querySelectorAll('.service-detail-content');
+    const defaultVideoContent = document.getElementById('default-video-content');
+
+    // Function to show default content
+    function showDefaultVideoContent() {
+        featureButtons.forEach(fb => fb.classList.remove('active')); // Deactivate all buttons
+        serviceDetailContents.forEach(sdc => {
+            sdc.classList.remove('active');
+        });
+        if (defaultVideoContent) {
+            defaultVideoContent.classList.add('active');
+        }
+        // Set first button as active by default
+        if (featureButtons.length > 0) {
+            featureButtons[0].classList.add('active');
+        }
+    }
+
+    // Function to switch service content
+    function switchServiceContent(serviceType) {
+        // Remove active class from all feature buttons and detail contents
+        featureButtons.forEach(fb => fb.classList.remove('active'));
+        serviceDetailContents.forEach(sdc => {
+            sdc.classList.remove('active');
+        });
+
+        // Add active class to clicked feature button
+        const activeButton = document.querySelector(`[data-service="${serviceType}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+
+        // Show corresponding detail content
+        const targetContent = document.getElementById(`${serviceType}-content`);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+
+        // Change the service image based on the selected service
+        const serviceImage = document.getElementById('service-image');
+        if (serviceImage) {
+            let imageSrc = 'images/generique/video-bg01.jpg'; // Image par défaut
+            
+            switch(serviceType) {
+                case 'evenementiel':
+                    imageSrc = 'images/generique/video-event01.jpg';
+                    break;
+                case 'creatif':
+                    imageSrc = 'images/generique/video-gen02.png';
+                    break;
+                case 'pedagogique':
+                    imageSrc = 'images/generique/video-pedagogique01.jpg';
+                    break;
+                case 'corporatif':
+                    imageSrc = 'images/generique/video-corpo01.png';
+                    break;
+            }
+            
+            serviceImage.src = imageSrc;
+        }
+    }
+
+    // Initialize with first service (evenementiel) active
+    if (featureButtons.length > 0) {
+        const firstService = featureButtons[0].dataset.service;
+        switchServiceContent(firstService);
+    }
+
+    // Add event listeners to feature buttons
+    featureButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const serviceType = this.dataset.service;
+            switchServiceContent(serviceType);
         });
     });
 
     // --- CTA Buttons Logic ---
     const ctaContactButtons = document.querySelectorAll('.cta-button');
+    const serviceContactButtons = document.querySelectorAll('.service-buttons .btn[href="#contact-section"]');
 
-    ctaContactButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
+    // Function to handle contact button clicks
+    function handleContactButtonClick(e) {
+        e.preventDefault();
 
-            if (window.innerWidth > 992) {
-                closeActiveView();
-                setTimeout(() => {
-                    openContactPanel();
-                }, 800);
-            } else {
-                const contactElem = document.getElementById('contact-section');
-                if (contactElem) {
-                    contactElem.scrollIntoView({ behavior: 'smooth' });
-                }
+        if (window.innerWidth > 992) {
+            closeActiveView();
+            setTimeout(() => {
+                openContactPanel();
+            }, 800);
+        } else {
+            const contactElem = document.getElementById('contact-section');
+            if (contactElem) {
+                contactElem.scrollIntoView({ behavior: 'smooth' });
             }
-        });
+        }
+    }
+
+    // Apply to CTA buttons
+    ctaContactButtons.forEach(button => {
+        button.addEventListener('click', handleContactButtonClick);
+    });
+
+    // Apply to service contact buttons
+    serviceContactButtons.forEach(button => {
+        button.addEventListener('click', handleContactButtonClick);
     });
 
     // --- Lightbox Close Logic ---
@@ -270,4 +350,53 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', (e) => { 
         if (e.key === 'Escape' && lightboxContainer.classList.contains('is-visible')) closeLightbox(); 
     });
+});
+// --- ANIMATION DU PANNEAU DE CRÉDIBILITÉ ---
+document.addEventListener('DOMContentLoaded', () => {
+    const credibilityPanel = document.getElementById('credibility-panel');
+
+    // S'assure que le panneau existe avant de continuer
+    if (!credibilityPanel) return;
+
+    const animateCountUp = (el) => {
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 2000; // Durée de l'animation en ms
+        let startTime = null;
+
+        const step = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            let currentValue = Math.floor(progress * target);
+            
+            // Ajoute le signe '+' et formate le nombre si nécessaire
+            el.textContent = `+${currentValue.toLocaleString('fr-FR')}`;
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                 el.textContent = `+${target.toLocaleString('fr-FR')}`;
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Ajoute la classe pour l'animation de fondu/translation
+                entry.target.classList.add('is-visible');
+                
+                // Lance l'animation de comptage pour chaque chiffre
+                const counters = entry.target.querySelectorAll('.stat-value');
+                counters.forEach(counter => animateCountUp(counter));
+                
+                // Arrête d'observer une fois l'animation lancée
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2 // Déclenche quand 20% du panneau est visible
+    });
+
+    observer.observe(credibilityPanel);
 });

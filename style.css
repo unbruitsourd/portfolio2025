@@ -513,8 +513,8 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
+    background-color: rgba(232, 90, 79, 0.1);
+    color: #E85A4F;
 }
 
 /* Styles pour les piliers (légèrement ajustés pour le contexte) */
@@ -544,7 +544,7 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 .pillar-header h3 { margin: 0; font-size: 1.5rem; font-weight: 700; }
 
 #pillar-lms .pillar-header { background: linear-gradient(135deg, #495057, #212529); }
-#pillar-module .pillar-header { background: linear-gradient(135deg, #0d6efd, #0558ca); }
+#pillar-module .pillar-header { background: linear-gradient(135deg, #E85A4F, #C8A882); }
 
 .pillar-body { 
     padding: 1.5rem; 
@@ -601,8 +601,8 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
+    background-color: rgba(232, 90, 79, 0.1);
+    color: #E85A4F;
 }
 .superpowers-list div strong { 
     display: block; 
@@ -643,7 +643,7 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     font-weight: bold; 
 }
 .project-thumb .stretched-link {
-    color: #0d6efd;
+    color: #E85A4F;
     font-weight: bold;
     text-decoration: none;
     font-size: 0.9rem;
@@ -696,138 +696,180 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
     padding-left: 1rem;
-    border-left: 2px solid #0d6efd;
+    border-left: 2px solid #E85A4F;
 }
 
 .video-services-section { padding: 2rem 0; }
 
-.service-steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+/* Nouveaux styles pour les boutons de features */
+.video-features-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.service-step {
-    text-align: center;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    border: 1px solid #e9ecef;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.service-button {
+.feature-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #495057;
+    text-align: center;
+    min-width: 140px;
 }
 
-.service-button:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    border-color: #0d6efd;
+.feature-button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.service-hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    color: white;
+.feature-button.active {
+    background-color: #343a40;
+    color: #ffffff;
+    border-color: #343a40;
+    box-shadow: 0 4px 12px rgba(52, 58, 64, 0.3);
+}
+
+/* Nouvelle grille pour image + contenu */
+.video-services-new-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+    align-items: center;
+}
+
+.video-service-image {
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    min-height: 400px;
+    border: 1px solid #e9ecef;
 }
 
-/* Specific colors for each service button hover overlay */
-.service-button[data-lightbox="brainstorm"] .service-hover-overlay {
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.9), rgba(253, 126, 20, 0.9)); /* Orange/Yellow */
+.video-service-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
 }
 
-.service-button[data-lightbox="tournage"] .service-hover-overlay {
-    background: linear-gradient(135deg, rgba(220, 53, 69, 0.9), rgba(253, 126, 20, 0.9)); /* Red */
+.video-service-content {
+    padding: 2rem;
 }
 
-.service-button[data-lightbox="postproduction"] .service-hover-overlay {
-    background: linear-gradient(135deg, rgba(111, 66, 193, 0.9), rgba(90, 45, 145, 0.9)); /* Purple */
-}
-
-.service-button[data-lightbox="livraison"] .service-hover-overlay {
-    background: linear-gradient(135deg, rgba(25, 135, 84, 0.9), rgba(40, 167, 69, 0.9)); /* Green */
-}
-
-.service-button:hover .service-hover-overlay {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.service-cta {
+.service-tagline {
+    font-size: 0.875rem;
     font-weight: 600;
-    font-size: 1.1rem;
     text-transform: uppercase;
+    color: #6c757d;
     letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
 }
 
-.service-cta i {
-    margin-left: 0.5rem;
-    transition: transform 0.3s ease;
+.service-detail-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-.service-button:hover .service-cta i {
-    transform: translateX(5px);
+.service-detail-content.active {
+    display: block;
+    opacity: 1;
 }
 
-.service-step-icon {
-    font-size: 2.5rem;
-    width: 5rem;
-    height: 5rem;
-    margin: 0 auto 1.5rem auto;
+.service-detail-content h4 {
+    color: #343a40;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.service-detail-content p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.service-buttons {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-/* Specific colors for each service step icon */
-.service-step[data-lightbox="brainstorm"] .service-step-icon {
-    background: linear-gradient(135deg, #ffc107, #fd7e14);
-    color: white;
-    box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+.service-buttons .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
 }
 
-.service-step[data-lightbox="tournage"] .service-step-icon {
-    background: linear-gradient(135deg, #dc3545, #fd7e14);
-    color: white;
-    box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+.service-buttons .btn-dark {
+    background-color: #E85A4F;
+    border-color: #E85A4F;
 }
 
-.service-step[data-lightbox="postproduction"] .service-step-icon {
-    background: linear-gradient(135deg, #6f42c1, #5a2d91);
-    color: white;
-    box-shadow: 0 10px 30px rgba(111, 66, 193, 0.3);
+.service-buttons .btn-dark:hover {
+    background-color: #b5c8b7;
+    border-color: #b5c8b7;
+    color: #343a40;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(181, 200, 183, 0.3);
 }
 
-.service-step[data-lightbox="livraison"] .service-step-icon {
-    background: linear-gradient(135deg, #198754, #28a745);
-    color: white;
-    box-shadow: 0 10px 30px rgba(25, 135, 84, 0.3);
+.service-buttons .btn-outline-dark {
+    color: #E85A4F;
+    border-color: #E85A4F;
 }
 
-.service-step h5 { 
-    font-weight: 700; 
-    margin-bottom: 0.75rem; 
+.service-buttons .btn-outline-dark:hover {
+    background-color: #b5c8b7;
+    border-color: #b5c8b7;
+    color: #343a40;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(181, 200, 183, 0.3);
 }
-.service-step p { 
-    color: #6c757d; 
-    font-size: 0.9rem; 
+
+/* Responsive adjustments for mobile */
+@media (max-width: 992px) {
+    .video-features-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .feature-button {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .video-services-new-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .video-service-image {
+        min-height: 250px;
+        padding: 1.5rem;
+    }
+    
+    .video-service-content {
+        padding: 1.5rem;
+    }
+    
+    .service-buttons {
+        flex-direction: column;
+    }
+    
+    .service-buttons .btn {
+        width: 100%;
+    }
 }
 
 /* --- CTA Section Styles --- */
@@ -841,21 +883,21 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 
 .cta-button {
     display: inline-block;
-    background-color: #0d6efd;
+    background-color: #E85A4F;
     color: #ffffff;
     padding: 0.8rem 1.8rem;
     border-radius: 50px; /* Pill shape */
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 4px 15px rgba(232, 90, 79, 0.2);
 }
 
 .cta-button:hover {
-    background-color: #0b5ed7;
-    color: #ffffff;
+    background-color: #b5c8b7;
+    color: #343a40;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+    box-shadow: 0 6px 20px rgba(181, 200, 183, 0.3);
 }
 
 .cta-button i {
@@ -866,6 +908,45 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 
 .cta-button:hover i {
     transform: translateX(5px);
+}
+
+/* --- Button Styles for Mobile and Contact Form --- */
+.btn-outline-light {
+    color: #E85A4F;
+    border-color: #E85A4F;
+    background-color: transparent;
+}
+
+.btn-outline-light:hover {
+    background-color: #b5c8b7;
+    border-color: #b5c8b7;
+    color: #343a40;
+}
+
+.btn-primary {
+    background-color: #E85A4F;
+    border-color: #E85A4F;
+}
+
+.btn-primary:hover {
+    background-color: #b5c8b7;
+    border-color: #b5c8b7;
+    color: #343a40;
+}
+
+.feature-button:hover {
+    background-color: #b5c8b7;
+    border-color: #b5c8b7;
+    color: #343a40;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(181, 200, 183, 0.3);
+}
+
+.feature-button.active {
+    background-color: #E85A4F;
+    color: #ffffff;
+    border-color: #E85A4F;
+    box-shadow: 0 4px 12px rgba(232, 90, 79, 0.3);
 }
 
 /* --- Mobile Styles --- */
@@ -1117,30 +1198,71 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
         opacity: 0.4;
     }
 }
+/* --- Styles pour le Panneau de Crédibilité Dynamique --- */
+.techno-credibility-panel {
+    background-color: #f8f9fa;
+    border-radius: 1.5rem;
+    padding: 4rem;
+    margin: 3rem 0;
+    border: 1px solid #e9ecef;
+    opacity: 0; /* Caché par défaut pour l'animation d'apparition */
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
 
-</file_content>
+/* Classe ajoutée par JS lorsque le panneau est visible */
+.techno-credibility-panel.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-Now that you have the latest state of the file, try the operation again with fewer, more precise SEARCH blocks. For large files especially, it may be prudent to try to limit yourself to <5 SEARCH/REPLACE blocks at a time, then wait for the user to respond with the result of the operation before following up with another replace_in_file call to make additional edits.
-(If you run into this error 3 times in a row, you may use the write_to_file tool as a fallback.)
-</error><environment_details>
-# VSCode Visible Files
-style.css
+.techno-credibility-panel h3 {
+    color: #343a40;
+}
 
-# VSCode Open Tabs
-index.html
-lightbox-brainstorm.html
-lightbox-tournage.html
-script.js
-style.css
-lightbox-livraison.html
-lightbox-postproduction.html
+.stat-card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    height: 100%;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
 
-# Current Time
-7/3/2025, 10:54:10 PM (America/Toronto, UTC-4:00)
+.stat-card i {
+    font-size: 2.25rem;
+    color: #E85A4F;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
 
-# Context Window Usage
-130,617 / 1,048.576K tokens used (12%)
+.stat-card .stat-value, .stat-card .stat-value-text {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #343a40;
+    line-height: 1.1;
+    min-height: 48px; /* Empêche le sautillement pendant le comptage */
+}
 
-# Current Mode
-ACT MODE
-</environment_details>
+.stat-card .stat-value-text {
+    font-size: 1.75rem; /* Taille de police ajustée pour le texte */
+}
+
+.stat-card .stat-description {
+    margin-top: 0.5rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Media query pour un meilleur affichage sur mobile */
+@media (max-width: 991px) {
+    .techno-credibility-panel {
+        padding: 2rem;
+    }
+    .techno-credibility-panel .col-lg-5 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+}

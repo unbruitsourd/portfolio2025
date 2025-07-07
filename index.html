@@ -22,7 +22,7 @@
             <h1 class="mobile-title">David Guillemette</h1>
             <p class="mobile-subtitle">Production vidéo et technopédagogique</p>
             <div class="mobile-nav">
-                <a href="#techno" class="btn btn-outline-light btn-lg"><i class="bi bi-lightbulb-fill me-2"></i> Portfolio technopédagogie</a>
+                <a href="#techno" class="btn btn-outline-light btn-lg"><i class="bi bi-lightbulb-fill me-2"></i> Portfolio e-learning</a>
                 <a href="#video" class="btn btn-outline-light btn-lg"><i class="bi bi-camera-reels-fill me-2"></i> Portfolio vidéo</a>
                 <a href="#contact-section" class="btn btn-outline-light btn-lg"><i class="bi bi-envelope-fill me-2"></i> Me contacter</a>
             </div>
@@ -35,7 +35,7 @@
         <!-- Technopedagogy Section -->
 <section id="techno" class="split">
     <div class="video-wrapper"></div>
-    <div class="overlay-text"><span class="title-main">Portfolio</span><span class="title-sub">Technopédagogie</span></div>
+    <div class="overlay-text"><span class="title-main">Portfolio</span><span class="title-sub">E-learning / web</span></div>
     <div class="portfolio-content">
         <a href="#" class="back-arrow"><i class="bi bi-x-circle-fill"></i></a>
         <div class="scrollable-content">
@@ -46,22 +46,63 @@
 <!-- 1. NOUVELLE SECTION HERO -->
 <section class="techno-hero-section">
     <div class="hero-text-content">
-        <h2 class="display-4 fw-bolder">L'expertise institutionnelle au service de votre projet.</h2>
-        <p class="lead mt-3">Après avoir piloté pendant 10 ans le développement de plateformes eLearning complexes, j'ouvre mon atelier pour offrir cette expertise de pointe à un plus large public.</p>
+        <h2 class="display-4 fw-bolder">L'expertise de pointe au service de votre projet.</h2>
+        <p class="lead mt-3">Après avoir piloté pendant 10 ans le développement d'un portail de formation complexe, j'ouvre mon atelier pour offrir cette expertise de pointe à un plus large public.</p>
     </div>
 </section>
 
 <!-- 2. WRAPPER POUR LE RESTE DU CONTENU -->
 <div class="techno-content-wrapper">
     <!-- 3. SECTION CRÉDIBILITÉ "MON PARCOURS" -->
-    <section class="techno-intro-story text-center">
-        <h3 class="fw-bold">Mon parcours : du sur-mesure pour les experts</h3>
-        <p class="lead text-muted mx-auto" style="max-width: 800px;">
-            Mon expérience a été forgée en relevant un défi de taille : concevoir, développer et gérer le portail de formation de l'<strong>Institut de pédiatrie sociale en communauté</strong>. Aujourd'hui, je mets cette expertise pointue à la disposition d'organisations, de formateurs et d'entreprises qui, comme vous, visent l'excellence pédagogique et technique.
-        </p>
-    </section>
-    
-    <hr class="my-5">
+    <section id="credibility-panel" class="techno-credibility-panel">
+    <div class="row g-5 align-items-center">
+        <!-- Colonne de gauche : Le Récit -->
+        <div class="col-lg-5">
+            <p class="lead text-muted">
+                Mon expérience a été forgée en relevant un défi de taille : concevoir, développer et gérer le portail de formation de l'<strong>Institut de pédiatrie sociale en communauté (IPSC)</strong>.
+            </p>
+            <p class="text-muted">
+                Aujourd'hui, je mets cette expertise à la disposition d'organisations, de formateurs et d'entreprises qui visent l'innovation et l'excellence pédagogique et technique.
+            </p>
+            <h3 class="fw-bolder mb-3">Le portail de l'IPSC, c'est :</h3>
+        </div>
+
+        <!-- Colonne de droite : La Preuve en chiffres -->
+        <div class="col-lg-7">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-people-fill"></i>
+                        <!-- L'attribut data-target contient la valeur finale pour l'animation JS -->
+                        <div class="stat-value" data-target="4000">+0</div>
+                        <p class="stat-description">Membres inscrits - en provenance principalement des milieux de la santé, des services sociaux, du droit et du communautaire.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-collection-play-fill"></i>
+                        <div class="stat-value" data-target="20">+0</div>
+                        <p class="stat-description">Formations hébergées et gérées sur le portail</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-graph-up"></i>
+                        <div class="stat-value" data-target="11000">+0</div>
+                        <p class="stat-description">Formations complétées avec succès par les apprenant·es</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-patch-check-fill"></i>
+                        <div class="stat-value-text">Qualité Reconnue</div>
+                        <p class="stat-description">Membre SOFEDUC et formations accréditées (Barreau, MdFC, etc.)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- 4. SECTION "MES DOMAINES D'EXPERTISE" -->
     <section class="techno-pillars">
@@ -81,7 +122,7 @@
                         <hr class="my-4">
                         <h5 class="showcase-title">Étude de cas :</h5>
                         <a href="projet-lms.html" class="project-thumb project-link">
-                            <img src="https://via.placeholder.com/150x90.png?text=LMS" alt="Aperçu plateforme LMS">
+                            
                             <div class="project-thumb-info">
                                 <h6>Portail de l'institut de pédiatrie sociale</h6>
                                 <span class="stretched-link">Découvrir le projet <i class="bi bi-arrow-right-short"></i></span>
@@ -99,13 +140,12 @@
                         <ul class="superpowers-list">
                             <li><i class="bi bi-diagram-3-fill"></i><div><strong>Scénarisation avancée</strong><span>Création de mises en situation complexes et de parcours adaptatifs.</span></div></li>
                             <li><i class="bi bi-code-slash"></i><div><strong>Interactivité sur mesure (JS)</strong><span>Développement de mécaniques uniques pour un engagement maximal.</span></div></li>
-                            <li><i class="bi bi-robot"></i><div><strong>Intégration d'IA</strong><span>Analyse de réponses et feedback dynamique pour un apprentissage personnalisé.</span></div></li>
+                            <li><i class="bi bi-robot"></i><div><strong>Intégration réfléchie de l'IA</strong><span>Analyses de réponses, feedbacks dynamiques et interactions évolutives pour un apprentissage personnalisé.</span></div></li>
                         </ul>
                         <hr class="my-4">
                         <h5 class="showcase-title">Exemple de module :</h5>
                         <a href="projet-module.html" class="project-thumb project-link">
-                            <img src="https://via.placeholder.com/150x90.png?text=Module" alt="Aperçu module interactif">
-                            <div class="project-thumb-info">
+                                                        <div class="project-thumb-info">
                                 <h6>Module pour un ordre professionnel</h6>
                                 <span class="stretched-link">Voir les interactions <i class="bi bi-arrow-right-short"></i></span>
                             </div>
@@ -133,7 +173,7 @@
                 <div class="advantage-item text-center">
                     <div class="advantage-icon"><i class="bi bi-award-fill"></i></div>
                     <h5 class="fw-bold">Une expertise prouvée</h5>
-                    <p class="text-muted">Vous bénéficiez de la même rigueur et des mêmes standards techniques que ceux appliqués pour un portail institutionnel majeur.</p>
+                    <p class="text-muted">Vous bénéficiez de la même rigueur et des mêmes standards techniques que ceux appliqués pour un portail institutionnel.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -197,46 +237,83 @@
                         
                         <section class="video-hero-section">
                             <div class="hero-text-content">
-                                <h2 class="display-4 fw-bolder">L'art de raconter en images.</h2>
+                                <h2 class="display-4 fw-bolder">La narration visuelle, de la conception à la diffusion.</h2>
                                 <p class="lead mt-3">Diplômé d'un baccalauréat interdisciplinaire en arts (2008) et d'une maîtrise en arts médiatiques (2013), ma passion est de traduire des idées et des émotions en récits visuels puissants. Chaque projet est une nouvelle histoire à construire.</p>
                             </div>
                         </section>
 
                         <div class="video-content-wrapper">
                             <section class="video-services-section">
-                                <h3 class="text-center mb-4 fw-bold">Un service complet, de l'idée à la livraison</h3>
-                                <p class="text-center text-muted mx-auto mb-5" style="max-width: 700px;">En tant que réalisateur indépendant, je contrôle chaque étape de la production. Vous bénéficiez d'une agilité, d'une cohérence et d'un tarif compétitif qu'une agence peut difficilement offrir.</p>
-                                <div class="service-steps-grid">
-                                    <div class="service-step service-button" data-lightbox="brainstorm">
-                                        <div class="service-step-icon"><i class="bi bi-lightbulb-fill"></i></div>
-                                        <h5>1. Brainstorm & stratégie</h5>
-                                        <p>Nous définissons ensemble vos objectifs, votre message et le ton de la vidéo.</p>
-                                        <div class="service-hover-overlay">
-                                            <span class="service-cta">En savoir plus <i class="bi bi-arrow-right"></i></span>
-                                        </div>
+                                <h3 class="text-center mb-4 fw-bold">Mon offre de services vidéo</h3>
+                                <p class="text-center text-muted mx-auto mb-5" style="max-width: 700px;">Votre projet mérite une expertise éprouvée. Je mets à votre service un bagage de 15 ans en production vidéographique, incluant la réalisation de 4 longs-métrages documentaires diffusés en salles, une reconnaissance en festival pour mes courts-métrages et la production de dizaines de projets clients très diversifiés. Que votre objectif soit d'informer, d'émouvoir ou de vendre, ma maîtrise technique et ma vision de réalisateur garantissent un résultat original et professionnel.</p>
+                                
+                                <!-- Section des boutons de features -->
+                                <div class="video-features-buttons mb-5">
+                                    <div class="feature-button active" data-service="evenementiel">1. Événementiel</div>
+                                    <div class="feature-button" data-service="pedagogique">2. Pédagogique</div>
+                                    <div class="feature-button" data-service="corporatif">3. Corporatif</div>
+                                    <div class="feature-button" data-service="creatif">4. Créatif</div>
+                                </div>
+
+                                <!-- Nouvelle grille avec image à gauche et contenu à droite -->
+                                <div class="video-services-new-grid">
+                                    <div class="video-service-image">
+                                        <img id="service-image" src="images/generique/video-event01.png" alt="Production vidéo professionnelle" class="img-fluid">
                                     </div>
-                                    <div class="service-step service-button" data-lightbox="tournage">
-                                        <div class="service-step-icon"><i class="bi bi-camera-video-fill"></i></div>
-                                        <h5>2. Tournage 4K professionnel</h5>
-                                        <p>Captation d'images de haute qualité avec un équipement moderne et une direction artistique soignée.</p>
-                                        <div class="service-hover-overlay">
-                                            <span class="service-cta">En savoir plus <i class="bi bi-arrow-right"></i></span>
+                                    <div class="video-service-content">
+                                        <!-- Contenu par défaut -->
+                                        <div id="default-video-content" class="service-detail-content active">
+                                            <div class="service-tagline">Services vidéo</div>
+                                            <h4 class="fw-bold">Donnez vie à votre vision</h4>
+                                            <p>Que ce soit pour capturer l'essence d'un événement, transmettre un savoir complexe, renforcer votre image de marque ou raconter une histoire captivante, je mets mon expertise à votre service pour créer des productions vidéo qui marquent les esprits.</p>
+                                            <div class="service-buttons">
+                                                <a href="#contact-section" class="btn btn-dark">Contact</a>
+                                                <a href="#" class="btn btn-outline-dark">Voir plus <i class="bi bi-arrow-right"></i></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="service-step service-button" data-lightbox="postproduction">
-                                        <div class="service-step-icon"><i class="bi bi-magic"></i></div>
-                                        <h5>3. Post-production & montage</h5>
-                                        <p>Montage, étalonnage des couleurs, mixage sonore et animations pour donner vie à votre histoire.</p>
-                                        <div class="service-hover-overlay">
-                                            <span class="service-cta">En savoir plus <i class="bi bi-arrow-right"></i></span>
+
+                                        <!-- Contenu Événementiel -->
+                                        <div id="evenementiel-content" class="service-detail-content">
+                                            <div class="service-tagline">Captation professionnelle</div>
+                                            <h4 class="fw-bold">Immortalisez vos moments clés</h4>
+                                            <p>De la conférence au spectacle, je capture l'énergie et l'essence de vos événements avec un regard artistique et une approche technique irréprochable.</p>
+                                            <div class="service-buttons">
+                                                <a href="#contact-section" class="btn btn-dark">Contact</a>
+                                                <a href="projet-norvege.html" class="btn btn-outline-dark project-link">Vidéo en vedette <i class="bi bi-arrow-right"></i></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="service-step service-button" data-lightbox="livraison">
-                                        <div class="service-step-icon"><i class="bi bi-check-circle-fill"></i></div>
-                                        <h5>4. Livraison & optimisation</h5>
-                                        <p>Fourniture des fichiers finaux optimisés pour le web, les réseaux sociaux ou la diffusion.</p>
-                                        <div class="service-hover-overlay">
-                                            <span class="service-cta">En savoir plus <i class="bi bi-arrow-right"></i></span>
+
+                                        <!-- Contenu Pédagogique -->
+                                        <div id="pedagogique-content" class="service-detail-content">
+                                            <div class="service-tagline">Formation vidéo</div>
+                                            <h4 class="fw-bold">Transformez le savoir en expérience</h4>
+                                            <p>Je conçois des vidéos éducatives qui engagent, simplifient les concepts complexes et maximisent la rétention d'apprentissage.</p>
+                                            <div class="service-buttons">
+                                                <a href="#contact-section" class="btn btn-dark">Contact</a>
+                                                <a href="projet-ecosse.html" class="btn btn-outline-dark project-link">Vidéo en vedette <i class="bi bi-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contenu Corporatif -->
+                                        <div id="corporatif-content" class="service-detail-content">
+                                            <div class="service-tagline">Image de marque</div>
+                                            <h4 class="fw-bold">Renforcez votre présence visuelle</h4>
+                                            <p>Mettez en valeur votre entreprise avec des vidéos corporatives qui reflètent votre professionnalisme et communiquent efficacement votre message.</p>
+                                            <div class="service-buttons">
+                                                <a href="#contact-section" class="btn btn-dark">Contact</a>
+                                                <a href="projet-terreneuve.html" class="btn btn-outline-dark project-link">Vidéo en vedette <i class="bi bi-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contenu Créatif -->
+                                        <div id="creatif-content" class="service-detail-content">
+                                            <div class="service-tagline">On s'éclate !</div>
+                                            <h4 class="fw-bold">Quand votre concept devient une oeuvre</h4>
+                                            <p>Je collabore avec des artistes et des marques pour transformer des idées audacieuses en créations visuelles uniques. Du vidéoclip au court-métrage, en passant par des vidéos de présentation originales, mon objectif est de créer une esthétique forte qui captive et qui sert votre vision.</p>
+                                            <div class="service-buttons">
+                                                <a href="#contact-section" class="btn btn-dark">Contact</a>
+                                                <a href="projet-espagne.html" class="btn btn-outline-dark project-link">Vidéo en vedette : Pier Lunaire - Le vol de la mésange <i class="bi bi-arrow-right"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
