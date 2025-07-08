@@ -187,6 +187,20 @@ body, html {
     margin: 0 auto;
 }
 
+.keyboard-icons-container {
+    margin-top: 0px; /* Adjust spacing from the logo */
+    display: flex;
+    justify-content: center;
+    gap: 8px; /* Space between icons */
+}
+
+.keyboard-icons-container i {
+    font-size: 1rem; /* Make icons smaller */
+    color: #6c757d; /* Use a grey color, common for muted text in Bootstrap */
+    /* Removed opacity and transition as per feedback (no hover effect) */
+}
+/* Removed .keyboard-icons-container i:hover block as per feedback (no hover effect) */
+
 /* Portfolio Content within split panels */
 .portfolio-content {
     position: absolute;

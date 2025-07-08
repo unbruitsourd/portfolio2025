@@ -289,13 +289,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     imageSrc = 'images/generique/video-event01.jpg';
                     break;
                 case 'creatif':
-                    imageSrc = 'images/generique/video-gen02.png';
+                    imageSrc = 'images/generique/video-creatif01.jpg';
                     break;
                 case 'pedagogique':
                     imageSrc = 'images/generique/video-pedagogique01.jpg';
                     break;
                 case 'corporatif':
-                    imageSrc = 'images/generique/video-corpo01.png';
+                    imageSrc = 'images/generique/video-corpo01.jpg';
                     break;
             }
             
@@ -354,9 +354,65 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxContainer.addEventListener('click', (e) => { 
         if (e.target === lightboxContainer) closeLightbox(); 
     });
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === 'Escape' && lightboxContainer.classList.contains('is-visible')) closeLightbox(); 
-    });
+document.addEventListener('keydown', (e) => {
+    // Check if the lightbox is open; if so, only 'Escape' should close it.
+    if (lightboxContainer.classList.contains('is-visible')) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+        return; // Prevent other key actions when lightbox is open
+    }
+
+    const isLeftActive = mainContainer.classList.contains('left-is-active');
+    const isRightActive = mainContainer.classList.contains('right-is-active');
+    const isContactActive = mainContainer.classList.contains('contact-is-active');
+    const isViewActive = mainContainer.classList.contains('view-active');
+
+    // Prevent default scrolling behavior for arrow keys and escape
+    if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'Escape'].includes(e.key)) {
+        e.preventDefault();
+    }
+
+    // Logic for main screen (no section active)
+    if (!isViewActive) {
+        switch (e.key) {
+            case 'ArrowLeft':
+                mainContainer.classList.add('left-is-active', 'view-active');
+                break;
+            case 'ArrowRight':
+                mainContainer.classList.add('right-is-active', 'view-active');
+                break;
+            case 'ArrowDown':
+                openContactPanel();
+                break;
+        }
+    }
+    // Logic when a section is active
+    else {
+        if (isLeftActive) { // Techno section is active
+            switch (e.key) {
+                case 'ArrowRight':
+                case 'Escape':
+                    closeActiveView();
+                    break;
+            }
+        } else if (isRightActive) { // Video section is active
+            switch (e.key) {
+                case 'ArrowLeft':
+                case 'Escape':
+                    closeActiveView();
+                    break;
+            }
+        } else if (isContactActive) { // Contact section is active
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'Escape':
+                    closeActiveView();
+                    break;
+            }
+        }
+    }
+});
 });
 // --- ANIMATION DU PANNEAU DE CRÉDIBILITÉ ---
 document.addEventListener('DOMContentLoaded', () => {
