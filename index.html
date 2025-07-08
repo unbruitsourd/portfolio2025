@@ -47,7 +47,7 @@
 <section class="techno-hero-section">
     <div class="hero-text-content">
         <h2 class="display-4 fw-bolder">L'expertise de pointe au service de votre projet.</h2>
-        <p class="lead mt-3">Après avoir piloté pendant 10 ans le développement d'un portail de formation complexe, j'ouvre mon atelier pour offrir cette expertise de pointe à un plus large public.</p>
+        <p class="lead mt-3">Après avoir piloté pendant 10 ans le développement d'un portail de formation complexe et intégré près d'une quinzaines de formations asynchrones, j'ouvre mon atelier pour offrir cette expertise de pointe à un plus large public.</p>
     </div>
 </section>
 
@@ -59,12 +59,15 @@
         <!-- Colonne de gauche : Le Récit -->
         <div class="col-lg-5">
             <p class="lead text-muted">
-                Mon expérience a été forgée en relevant un défi de taille : concevoir, développer et gérer le portail de formation de l'<strong>Institut de pédiatrie sociale en communauté (IPSC)</strong>.
+                Mon expérience a été forgée en relevant des défis de taille : concevoir, développer et gérer le portail de formation de l'<strong>Institut de pédiatrie sociale en communauté (IPSC)</strong> et produire les formations en ligne de son catalogue.
             </p>
             <p class="text-muted">
                 Aujourd'hui, je mets cette expertise à la disposition d'organisations, de formateurs et d'entreprises qui visent l'innovation et l'excellence pédagogique et technique.
             </p>
-            <h3 class="fw-bolder mb-3">Le portail de l'IPSC, c'est :</h3>
+            <div class="credibility-title">
+                <i class="bi bi-info-circle-fill"></i>
+                <h3 class="fw-bolder mb-0">Le portail de l'IPSC, c'est :</h3>
+            </div>
         </div>
 
         <!-- Colonne de droite : La Preuve en chiffres -->
@@ -244,9 +247,15 @@
 
                         <div class="video-content-wrapper">
                             <section class="video-services-section">
-                                <h3 class="text-center mb-4 fw-bold">Mon offre de services vidéo</h3>
-                                <p class="text-center text-muted mx-auto mb-5" style="max-width: 700px;">Votre projet mérite une expertise éprouvée. Je mets à votre service un bagage de 15 ans en production vidéographique, incluant la réalisation de 4 longs-métrages documentaires diffusés en salles, une reconnaissance en festival pour mes courts-métrages et la production de dizaines de projets clients très diversifiés. Que votre objectif soit d'informer, d'émouvoir ou de vendre, ma maîtrise technique et ma vision de réalisateur garantissent un résultat original et professionnel.</p>
-                                
+                                <div class="video-services-new-grid mb-5">
+                                    <div class="video-service-content"><h4 class="fw-bold">Donnez vie à votre vision</h4>
+                                        <p class="text-muted">Votre projet mérite une expertise éprouvée. Je mets à votre service un bagage de 15 ans en production vidéographique, incluant la réalisation de 4 longs-métrages documentaires diffusés en salles, une reconnaissance en festival pour mes courts-métrages et la production de dizaines de projets clients très diversifiés. Que votre objectif soit d'informer, d'émouvoir ou de vendre, ma maîtrise technique et ma vision de réalisateur garantissent un résultat original et professionnel.</p>
+                                    </div>
+                                    <div class="video-service-image">
+                                        <img src="images/generique/video-gen01.png" alt="Photo de David Guillemette avec équipement vidéo" class="img-fluid">
+                                    </div>
+                                </div>
+                                <h5 class="fw-bold text-center mb-3">Types de services vidéo offerts</h5>
                                 <!-- Section des boutons de features -->
                                 <div class="video-features-buttons mb-5">
                                     <div class="feature-button active" data-service="evenementiel">1. Événementiel</div>
@@ -374,8 +383,26 @@
                         <h2 class="mb-4 text-center text-lg-start">Envoyez-moi un message</h2>
                         <div id="contact-wrapper">
                             <form id="contact-form">
-                                <div class="mb-3"><label for="name" class="form-label">Votre nom</label><input type="text" class="form-control" id="name" name="name" required></div>
-                                <div class="mb-3"><label for="email" class="form-label">Votre courriel</label><input type="email" class="form-control" id="email" name="email" required></div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">Votre nom</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Votre courriel</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sujet" class="form-label">De quoi aimeriez-vous jaser?</label>
+                                    <select class="form-select" id="sujet" name="sujet" required>
+                                        <option value="" disabled selected>Sélectionnez un sujet</option>
+                                        <option value="production-video">D'un projet vidéo</option>
+                                        <option value="production-elearning">D'une idée de formation en ligne</option>
+                                        <option value="production-web">D'un besoin de site web et/ou d'un plan de maintenance</option>
+                                        <option value="autre">De hockey, de la météo ou tout autre sujets</option>
+                                    </select>
+                                </div>
                                 <div aria-hidden="true" style="position: absolute; left: -9999px;"><input type="text" name="spam_check" autocomplete="off" tabindex="-1"></div>
                                 <div class="mb-3"><label for="message" class="form-label">Votre message</label><textarea class="form-control" id="message" name="message" rows="5" required></textarea></div>
                                 <button type="submit" class="btn btn-primary w-100 btn-lg"><span class="btn-text">Envoyer</span><span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span></button>

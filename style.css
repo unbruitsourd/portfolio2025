@@ -168,9 +168,7 @@ body, html {
 
 .center-text-link {
     display: inline-block;
-    padding: 20px 40px;
-    color: #333;
-    text-decoration: none;
+    padding: 10px 40px;
     background-color: rgba(255, 255, 255, 0.8);
     border: 1px solid #ddd;
     backdrop-filter: blur(8px);
@@ -181,6 +179,12 @@ body, html {
 .center-text-link:hover {
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.central-logo {
+    max-width: 400px;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Portfolio Content within split panels */
@@ -699,7 +703,11 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     border-left: 2px solid #E85A4F;
 }
 
-.video-services-section { padding: 2rem 0; }
+.video-services-section { padding: 0rem 0; }
+
+.video-section-title {
+    margin-top: 5rem;
+}
 
 /* Nouveaux styles pour les boutons de features */
 .video-features-buttons {
@@ -707,12 +715,42 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 3rem; /* Increased spacing above buttons */
+    margin-bottom: 3rem; /* Added spacing below buttons */
+}
+
+.offers-wrapper {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Center content horizontally */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 1rem; /* Space between title and buttons */
+    margin-bottom: 2rem; /* Add some space below the whole section */
+}
+
+.offers-title {
+    font-weight: bold;
+    font-size: 1.1rem; /* Adjust as needed for visual balance */
+    color: #343a40; /* Match existing text color */
+    white-space: nowrap; /* Prevent title from wrapping */
+    margin: 0; /* Remove default paragraph margin */
+    line-height: normal; /* Ensure consistent line height */
+}
+
+.offers-title {
+    font-weight: bold;
+    font-size: 1.2rem; /* Adjusted for better visual balance */
+    color: #343a40; /* Match existing text color */
+    white-space: nowrap; /* Prevent title from wrapping */
+    margin: 0; /* Remove default paragraph margin */
+    line-height: normal; /* Ensure consistent line height */
+    transform: translateY(2px); /* Nudge down for better vertical alignment */
 }
 
 .feature-button {
     padding: 0.75rem 1.5rem;
     background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    border: 1px solid #dee2e6; /* Revert border to original */
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -760,10 +798,14 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     max-width: 100%;
     height: auto;
     border-radius: 0.5rem;
+    transition: opacity 0.4s ease; /* Add transition for image opacity */
 }
 
 .video-service-content {
     padding: 2rem;
+    position: relative; /* Establish positioning context for absolute children */
+    min-height: 300px; /* Adjust as needed based on max content height */
+    overflow: hidden; /* Hide overflowing content during transitions */
 }
 
 .service-tagline {
@@ -776,14 +818,25 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 }
 
 .service-detail-content {
-    display: none;
+    position: absolute; /* Take out of normal document flow */
+    top: 0;
+    left: 0;
+    width: 100%;
+    visibility: hidden;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transform: translateY(10px); /* Initial state for slide-in */
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0.4s;
+    pointer-events: none;
+    z-index: 1; /* Default z-index */
 }
 
 .service-detail-content.active {
-    display: block;
+    visibility: visible;
     opacity: 1;
+    transform: translateY(0); /* Final state for slide-in */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: auto;
+    z-index: 2; /* Bring active content to front */
 }
 
 .service-detail-content h4 {
@@ -840,13 +893,18 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 /* Responsive adjustments for mobile */
 @media (max-width: 992px) {
     .video-features-buttons {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row; /* Allow items to flow in a row */
+        flex-wrap: wrap; /* Wrap to the next line */
+        justify-content: center; /* Center items in the row */
+        align-items: flex-start; /* Align items to the start of the cross axis, if needed */
+        margin-top: 2rem; /* Adjusted spacing */
+        margin-bottom: 2rem; /* Adjusted spacing */
     }
     
     .feature-button {
-        width: 100%;
-        max-width: 300px;
+        width: calc(50% - 1rem); /* Two buttons per row with a gap */
+        max-width: none; /* Remove max-width constraint for 2x2 layout */
+        margin-bottom: 1rem; /* Add bottom margin for vertical spacing in the grid */
     }
     
     .video-services-new-grid {
@@ -1008,8 +1066,11 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
         gap: 2.5rem;
     }
 
-    #video, #techno { 
-        background-color: #ffffff !important; 
+    #video, #techno {
+        background-color: #ffffff !important;
+        justify-content: flex-start;
+        padding-left: 0;
+        padding-right: 0;
     }
     
     .scrollable-content { 
@@ -1265,4 +1326,35 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
         text-align: center;
         margin-bottom: 2rem;
     }
+}
+
+.credibility-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Space between icon and text */
+    margin-bottom: 1.5rem; /* Add some bottom margin, as it's removed from h3 */
+    justify-content: center; /* Center for mobile */
+}
+
+.credibility-title i {
+    font-size: 2rem; /* Make the icon slightly larger */
+    color: #E85A4F;
+    line-height: 1; /* Align with text */
+}
+
+.credibility-title h3 {
+    margin-bottom: 0; /* Remove default h3 margin as it's handled by parent div */
+    color: #E85A4F;
+}
+
+/* Adjust for larger screens to align left */
+@media (min-width: 992px) {
+    .credibility-title {
+        justify-content: flex-start;
+    }
+}
+
+.video-services-new-grid > .video-service-content > h4 {
+    font-size: 1.5rem;
+    color: #343a40;
 }

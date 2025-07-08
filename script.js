@@ -19,20 +19,18 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Closes any currently active view (left, right, or contact).
      */
-    function closeActiveView() {
-        mainContainer.classList.remove('left-is-active', 'right-is-active', 'contact-is-active', 'view-active');
-        // Reset scroll flag after transition completes
-        setTimeout(() => { hasScrolledForContact = false; }, 800);
-    }
+     function closeActiveView() {
+         mainContainer.classList.remove('left-is-active', 'right-is-active', 'contact-is-active', 'view-active');
+         // Reset scroll flag after transition completes
+         setTimeout(() => { hasScrolledForContact = false; }, 800);
+     }
 
     /**
      * Opens the contact panel (desktop only).
      */
-    function openContactPanel() {
-        if (window.innerWidth > 992) {
-            mainContainer.classList.add('contact-is-active', 'view-active');
-        }
-    }
+     function openContactPanel() {
+         mainContainer.classList.add('contact-is-active', 'view-active');
+     }
 
     /**
      * Handles clicks on the split panels to expand/collapse.
@@ -154,9 +152,10 @@ document.addEventListener('DOMContentLoaded', function() {
     splitRight.addEventListener('click', (e) => handleSplitClick(e, 'right'));
 
     if (contactTrigger) {
-        contactTrigger.addEventListener('click', (e) => { 
-            e.preventDefault(); 
-            openContactPanel(); 
+        contactTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openContactPanel();
         });
     }
 
@@ -176,12 +175,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.querySelectorAll('.back-arrow').forEach(arrow => { 
-        arrow.addEventListener('click', (e) => { 
-            e.preventDefault(); 
+    document.querySelectorAll('.back-arrow').forEach(arrow => {
+        arrow.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
-            closeActiveView(); 
-        }); 
+            closeActiveView();
+        });
+    });
+
+    // Handle clicks outside the active contact section to close it
+    document.addEventListener('click', (e) => {
+        // Check if the contact section is active and the click is outside of it
+        if (mainContainer.classList.contains('contact-is-active') && !contactSection.contains(e.target) && e.target !== contactTrigger) {
+            closeActiveView();
+        }
     });
     
     // --- Contact Form Logic ---
