@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // --- DOM Elements ---
     const mainContainer = document.getElementById('main-container');
+    const languageSwitcher = document.getElementById('language-switcher');
     const splitLeft = document.querySelector('#techno');
     const splitRight = document.querySelector('#video');
     const contactTrigger = document.getElementById('contact-trigger');
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
      function closeActiveView() {
          mainContainer.classList.remove('left-is-active', 'right-is-active', 'contact-is-active', 'view-active');
+         languageSwitcher.classList.remove('switcher-hidden'); // Show language switcher
          // Reset scroll flag after transition completes
          setTimeout(() => { hasScrolledForContact = false; }, 800);
      }
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
      function openContactPanel() {
          mainContainer.classList.add('contact-is-active', 'view-active');
+         // languageSwitcher.classList.add('switcher-hidden'); // The user wants this removed
      }
 
     /**
@@ -54,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             if (window.innerWidth > 992) {
                 mainContainer.classList.add(`${sideClicked}-is-active`, 'view-active');
+                languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
             }
         }
     }
@@ -98,6 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Set content and remove fading-in after a short delay to allow transition
             lightboxContent.innerHTML = html;
+
+            // --- AJOUT IMPORTANT ---
+            // On appelle la fonction de traduction sur le nouveau contenu de la lightbox.
+            // Cette fonction est définie dans translation.js et doit être globale.
+            if (typeof translateDynamicContent === 'function') {
+                translateDynamicContent(lightboxContent);
+            }
+            // --- FIN DE L'AJOUT ---
+
             setTimeout(() => {
                 lightboxContent.classList.remove('fading-in');
             }, 10); // Small delay to ensure class is applied before removal
@@ -354,65 +367,74 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxContainer.addEventListener('click', (e) => { 
         if (e.target === lightboxContainer) closeLightbox(); 
     });
-document.addEventListener('keydown', (e) => {
-    // Check if the lightbox is open; if so, only 'Escape' should close it.
-    if (lightboxContainer.classList.contains('is-visible')) {
-        if (e.key === 'Escape') {
-            closeLightbox();
-        }
-        return; // Prevent other key actions when lightbox is open
-    }
-
-    const isLeftActive = mainContainer.classList.contains('left-is-active');
-    const isRightActive = mainContainer.classList.contains('right-is-active');
-    const isContactActive = mainContainer.classList.contains('contact-is-active');
-    const isViewActive = mainContainer.classList.contains('view-active');
-
-    // Prevent default scrolling behavior for arrow keys and escape
-    if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'Escape'].includes(e.key)) {
-        e.preventDefault();
-    }
-
-    // Logic for main screen (no section active)
-    if (!isViewActive) {
-        switch (e.key) {
-            case 'ArrowLeft':
-                mainContainer.classList.add('left-is-active', 'view-active');
-                break;
-            case 'ArrowRight':
-                mainContainer.classList.add('right-is-active', 'view-active');
-                break;
-            case 'ArrowDown':
-                openContactPanel();
-                break;
-        }
-    }
-    // Logic when a section is active
-    else {
-        if (isLeftActive) { // Techno section is active
-            switch (e.key) {
-                case 'ArrowRight':
-                case 'Escape':
-                    closeActiveView();
-                    break;
+    
+    document.addEventListener('keydown', (e) => {
+        // Check if the lightbox is open; if so, only 'Escape' should close it.
+        if (lightboxContainer.classList.contains('is-visible')) {
+            if (e.key === 'Escape') {
+                closeLightbox();
             }
-        } else if (isRightActive) { // Video section is active
+            return; // Prevent other key actions when lightbox is open
+        }
+
+        const isLeftActive = mainContainer.classList.contains('left-is-active');
+        const isRightActive = mainContainer.classList.contains('right-is-active');
+        const isContactActive = mainContainer.classList.contains('contact-is-active');
+        const isViewActive = mainContainer.classList.contains('view-active');
+
+        // Prevent default scrolling behavior for arrow keys and escape
+        if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'Escape'].includes(e.key)) {
+            e.preventDefault();
+        }
+
+        // Logic for main screen (no section active)
+        if (!isViewActive) {
             switch (e.key) {
                 case 'ArrowLeft':
-                case 'Escape':
-                    closeActiveView();
+                    mainContainer.classList.add('left-is-active', 'view-active');
+                    languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
                     break;
-            }
-        } else if (isContactActive) { // Contact section is active
-            switch (e.key) {
-                case 'ArrowUp':
-                case 'Escape':
-                    closeActiveView();
+                case 'ArrowRight':
+                    mainContainer.classList.add('right-is-active', 'view-active');
+                    languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
+                    break;
+                case 'ArrowDown':
+                    openContactPanel();
+                    // languageSwitcher.classList.add('switcher-hidden'); // The user wants this removed
                     break;
             }
         }
+        // Logic when a section is active
+        else {
+            if (isLeftActive) { // Techno section is active
+                switch (e.key) {
+                    case 'ArrowRight':
+                    case 'Escape':
+                        closeActiveView();
+                        break;
+                }
+            } else if (isRightActive) { // Video section is active
+                switch (e.key) {
+                    case 'ArrowLeft':
+                    case 'Escape':
+                        closeActiveView();
+                        break;
+                }
+            } else if (isContactActive) { // Contact section is active
+                switch (e.key) {
+                    case 'ArrowUp':
+                    case 'Escape':
+                        closeActiveView();
+                        break;
+                }
+            }
+        }
+    });
+    // --- Set Current Year in Footer ---
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
     }
-});
 });
 // --- ANIMATION DU PANNEAU DE CRÉDIBILITÉ ---
 document.addEventListener('DOMContentLoaded', () => {

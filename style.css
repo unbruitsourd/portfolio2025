@@ -1,3 +1,57 @@
+/* --- Language Switcher --- */
+#language-switcher {
+    position: absolute;
+    top: 0px; /* Adjusted to appear from the top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100; /* Ensure it's above other content */
+    font-size: 0.9rem;
+    color: #343a40;
+    white-space: nowrap;
+    background-color: #ffffff; /* White background */
+    padding: 10px 20px; /* Padding inside the tab */
+    border-bottom-left-radius: 10px; /* Rounded bottom corners */
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease-out; /* Smooth transition for "emerging" effect */
+}
+
+#language-switcher a {
+    color: #6c757d; /* Muted color for inactive link */
+    text-decoration: none;
+    font-weight: normal;
+    transition: color 0.3s ease;
+}
+
+#language-switcher a:hover {
+    color: #E85A4F; /* Highlight on hover */
+}
+
+#language-switcher strong {
+    color: #343a40; /* Darker color for active language */
+    font-weight: 700;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 992px) {
+    #language-switcher {
+        position: static;
+        transform: none;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+}
+
+#language-switcher.switcher-hidden {
+    transform: translate(-50%, -80%);
+}
+
+#language-switcher.switcher-hidden:hover {
+    transform: translate(-50%, 0);
+}
+
 /* --- Global Styles & Desktop Layout --- */
 body, html {
     height: 100%;
@@ -182,7 +236,7 @@ body, html {
 }
 .central-logo {
     max-width: 400px;
-    height: 200px;
+    height: 150px;
     display: block;
     margin: 0 auto;
 }
@@ -380,6 +434,23 @@ body, html {
     color: #0f5132;
 }
 
+/* --- Contact Footer inside Contact Section --- */
+.contact-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+    background-color: #f8f9fa; /* Match contact section background */
+    z-index: 2; /* Ensure it's above other content if anything overlaps */
+}
+
+.contact-footer p {
+    margin: 0;
+}
 /* --- Lightbox Styles --- */
 body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox is open */
 
