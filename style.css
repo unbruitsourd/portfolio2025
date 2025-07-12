@@ -61,6 +61,21 @@ body, html {
     background-color: #ffffff;
 }
 
+html {
+    font-size: 16px; /* Base font size, 1rem = 16px */
+}
+
+p {
+    font-size: 1.05rem; /* Default size for paragraphs, approximately 18.4px */
+    line-height: 1.6;
+}
+
+@media (min-width: 2560px) { /* Targeting 4K and higher resolutions */
+    html {
+        font-size: 20px; /* Increase base font size for 4K monitors, 1rem = 20px */
+    }
+}
+
 /* Hide mobile landing by default (for desktop) */
 #mobile-landing {
     display: none;
@@ -442,7 +457,7 @@ body, html {
     width: 100%;
     text-align: center;
     padding: 1rem 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #6c757d;
     background-color: #f8f9fa; /* Match contact section background */
     z-index: 2; /* Ensure it's above other content if anything overlaps */
@@ -450,6 +465,7 @@ body, html {
 
 .contact-footer p {
     margin: 0;
+    font-size: 0.8rem; /* Explicitly setting font size for paragraphs within contact-footer */
 }
 /* --- Lightbox Styles --- */
 body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox is open */
@@ -497,7 +513,7 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     transition: opacity 0.2s ease;
 }
 
-.project-info-container { padding: 2rem; }
+.project-info-container { padding: 0; }
 
 #lightbox-container.is-visible #lightbox-content { transform: scale(1); } /* Scale up when visible */
 
@@ -510,7 +526,61 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     filter: invert(1) grayscale(100%) brightness(200%); /* White 'x' icon */
 }
 
+.project-hero {
+    position: relative;
+    height: 35vh; /* Adjusted height */
+    min-height: 250px; /* Adjusted min-height */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+}
+
+.project-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)); /* Dark gradient */
+    z-index: 1;
+}
+
+/* The .project-title-block is now styled via Bootstrap classes in the HTML */
+/* .project-hero-content class and its styles have been removed */
+
+.project-details {
+    /* Padding is handled by Bootstrap classes in HTML (p-4 p-lg-5) */
+}
+
+
 /* Responsive video container for iframes */
+.embed-responsive {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.embed-responsive.embed-responsive-16by9 {
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.embed-responsive-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+}
+
 .modal-video-container {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width * 100) */
