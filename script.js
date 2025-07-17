@@ -10,123 +10,180 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightboxContainer = document.getElementById('lightbox-container');
     const lightboxContent = document.getElementById('lightbox-content');
     const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxBackButton = document.getElementById('lightbox-back-button');
     const projectLinks = document.querySelectorAll('.project-link');
     const serviceButtons = document.querySelectorAll('.service-button');
     
     // Flag to prevent re-triggering contact panel on quick scrolls
     let hasScrolledForContact = false;
 
-    // --- Helper Functions ---
-    /**
-     * Closes any currently active view (left, right, or contact).
-     */
-     function closeActiveView() {
-         mainContainer.classList.remove('left-is-active', 'right-is-active', 'contact-is-active', 'view-active');
-         languageSwitcher.classList.remove('switcher-hidden'); // Show language switcher
-         // Reset scroll flag after transition completes
-         setTimeout(() => { hasScrolledForContact = false; }, 800);
-     }
+    // --- Fonctions de gestion des panneaux mobiles ---
+    function openMobileView(viewName) {
+        if (mainContainer.classList.contains('view-active')) return;
+        mainContainer.classList.add(`mobile-${viewName}-active`, 'view-active');
+    }
 
-    /**
-     * Opens the contact panel (desktop only).
-     */
-     function openContactPanel() {
-         mainContainer.classList.add('contact-is-active', 'view-active');
-         // languageSwitcher.classList.add('switcher-hidden'); // The user wants this removed
-     }
+    function closeMobileView() {
+        mainContainer.classList.remove('mobile-techno-active', 'mobile-video-active', 'mobile-contact-active', 'view-active');
+    }
 
-    /**
-     * Handles clicks on the split panels to expand/collapse.
-     * @param {Event} e - The click event.
-     * @param {string} sideClicked - 'left' or 'right' indicating which split was clicked.
-     */
-    function handleSplitClick(e, sideClicked) {
-        if (e.target.closest('a.project-link, [data-bs-toggle="modal"], .cta-button, .service-buttons .btn') || contactSection.contains(e.target)) {
-            return;
+    // --- Mobile Interaction Logic ---
+    function initMobileInteractions() {
+        if (window.innerWidth > 992) return;
+
+        document.body.style.overflow = 'hidden';
+
+        const technoTrigger = document.getElementById('techno');
+        const videoTrigger = document.getElementById('video');
+        const contactTriggerContainer = document.getElementById('contact-trigger');
+        const backArrows = document.querySelectorAll('.back-arrow');
+        const technoContent = document.querySelector('#techno .portfolio-content');
+        const videoContent = document.querySelector('#video .portfolio-content');
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        const swipeThreshold = 50;
+
+        technoTrigger.addEventListener('click', () => openMobileView('techno'));
+        videoTrigger.addEventListener('click', () => openMobileView('video'));
+        contactTriggerContainer.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openMobileView('contact');
+        });
+
+        backArrows.forEach(arrow => {
+            arrow.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                closeMobileView();
+            });
+        });
+
+        mainContainer.addEventListener('touchstart', e => {
+            if (mainContainer.classList.contains('view-active')) return;
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        mainContainer.addEventListener('touchend', e => {
+            if (mainContainer.classList.contains('view-active')) return;
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            handleSwipeOpen(touchEndX, touchEndY);
+        });
+
+        function handleSwipeOpen(endX, endY) {
+            const deltaX = endX - touchStartX;
+            const deltaY = endY - touchStartY;
+            if (Math.abs(deltaX) < swipeThreshold && Math.abs(deltaY) < swipeThreshold) return;
+            if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                if (deltaY < 0) openMobileView('contact');
+            } else {
+                if (deltaX > 0) openMobileView('techno');
+                else openMobileView('video');
+            }
         }
 
-        const isViewActive = mainContainer.classList.contains('view-active');
+        function addSwipeBackListener(element, closeDirection) {
+            if (!element) return;
+            let startX = 0;
+            let startY = 0;
 
+            element.addEventListener('touchstart', e => {
+                startX = e.changedTouches[0].screenX;
+                startY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            element.addEventListener('touchend', e => {
+                const endX = e.changedTouches[0].screenX;
+                const endY = e.changedTouches[0].screenY;
+                const deltaX = endX - startX;
+                const deltaY = Math.abs(endY - startY);
+
+                // On vérifie que le mouvement est bien plus horizontal que vertical
+                if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY) {
+                    let swipeHandled = false;
+                    // Si on doit swiper vers la GAUCHE pour fermer
+                    if (closeDirection === 'left' && deltaX < 0) {
+                        closeMobileView();
+                        swipeHandled = true;
+                    } 
+                    // Si on doit swiper vers la DROITE pour fermer
+                    else if (closeDirection === 'right' && deltaX > 0) {
+                        closeMobileView();
+                        swipeHandled = true;
+                    }
+                    
+                    // Si le swipe back a été géré, on arrête sa propagation
+                    // pour ne pas déclencher le swipe d'ouverture par erreur.
+                    if (swipeHandled) {
+                        e.stopPropagation();
+                    }
+                }
+            });
+        }
+        
+        // Pour fermer Techno (panneau de gauche), il faut swiper vers la GAUCHE.
+        addSwipeBackListener(technoContent, 'left');
+        // Pour fermer Vidéo (panneau de droite), il faut swiper vers la DROITE.
+        addSwipeBackListener(videoContent, 'right');
+    }
+
+    // --- Helper Functions ---
+    function closeActiveView() {
+        mainContainer.classList.remove('left-is-active', 'right-is-active', 'contact-is-active', 'view-active');
+        languageSwitcher.classList.remove('switcher-hidden');
+        setTimeout(() => { hasScrolledForContact = false; }, 800);
+    }
+
+    function openContactPanel() {
+        mainContainer.classList.add('contact-is-active', 'view-active');
+    }
+
+    function handleSplitClick(e, sideClicked) {
+        if (e.target.closest('a:not(.back-arrow)')) return;
+        const isViewActive = mainContainer.classList.contains('view-active');
         if (isViewActive) {
             const isLeftActive = mainContainer.classList.contains('left-is-active');
             const isRightActive = mainContainer.classList.contains('right-is-active');
-            
             if ((isLeftActive && sideClicked === 'right') || (isRightActive && sideClicked === 'left')) {
                 closeActiveView();
             }
         } else {
             if (window.innerWidth > 992) {
                 mainContainer.classList.add(`${sideClicked}-is-active`, 'view-active');
-                languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
+                languageSwitcher.classList.add('switcher-hidden');
             }
         }
     }
 
-    /**
-     * Opens the lightbox and loads content via Fetch API.
-     * @param {string} contentId - The ID of the content to load (e.g., 'brainstorm', 'projet-espagne').
-     * @param {string} type - 'service' for service lightboxes, 'project' for project lightboxes.
-     */
     async function openLightbox(contentId, type) {
         if (!contentId) return;
-
-        let url;
-        if (type === 'service') {
-            url = `lightbox-${contentId}.html`;
-        } else if (type === 'project') {
-            url = contentId; // contentId is already the URL for projects
-        } else {
-            console.error("Invalid lightbox type:", type);
-            return;
-        }
-
-        // If lightbox is already visible and content is changing, add fade-out class
+        let url = type === 'project' ? contentId : `lightbox-${contentId}.html`;
         if (lightboxContainer.classList.contains('is-visible') && lightboxContent.innerHTML !== '') {
             lightboxContent.classList.add('fading-out');
-            // Wait for fade-out transition to complete before loading new content
-            await new Promise(resolve => setTimeout(resolve, 200)); // Match CSS transition duration
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
-
         lightboxContainer.classList.add('is-visible');
         document.body.classList.add('lightbox-open');
-
-        // Show spinner while loading
         lightboxContent.innerHTML = '<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-        lightboxContent.classList.remove('fading-out'); // Remove fade-out if it was there
-        lightboxContent.classList.add('fading-in'); // Prepare for fade-in
-
+        lightboxContent.classList.remove('fading-out');
+        lightboxContent.classList.add('fading-in');
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const html = await response.text();
-            
-            // Set content and remove fading-in after a short delay to allow transition
             lightboxContent.innerHTML = html;
-
-            // --- AJOUT IMPORTANT ---
-            // On appelle la fonction de traduction sur le nouveau contenu de la lightbox.
-            // Cette fonction est définie dans translation.js et doit être globale.
             if (typeof translateDynamicContent === 'function') {
                 translateDynamicContent(lightboxContent);
             }
-            // --- FIN DE L'AJOUT ---
-
-            setTimeout(() => {
-                lightboxContent.classList.remove('fading-in');
-            }, 10); // Small delay to ensure class is applied before removal
-
-            // Specific logic for project carousels (if any)
+            setTimeout(() => { lightboxContent.classList.remove('fading-in'); }, 10);
             const carouselElement = lightboxContent.querySelector('#project-carousel');
             if (carouselElement) {
                 const carousel = new bootstrap.Carousel(carouselElement);
                 const videoFrame = carouselElement.querySelector('iframe');
-                
-                const manageVideo = (slideIndex) => {
-                    if (videoFrame) {
-                        videoFrame.src = slideIndex === 0 ? videoFrame.dataset.src : '';
-                    }
-                };
-
+                const manageVideo = (slideIndex) => { if (videoFrame) videoFrame.src = slideIndex === 0 ? videoFrame.dataset.src : ''; };
                 manageVideo(0);
                 carouselElement.addEventListener('slid.bs.carousel', (event) => manageVideo(event.to));
             }
@@ -137,28 +194,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /**
-     * Closes the lightbox.
-     */
     function closeLightbox() {
         const videoFrame = lightboxContent.querySelector('iframe');
         if (videoFrame) videoFrame.src = '';
-        
         lightboxContainer.classList.remove('is-visible');
         document.body.classList.remove('lightbox-open');
         setTimeout(() => { lightboxContent.innerHTML = ''; }, 400);
     }
-
-    // --- Event Delegation for Lightbox Content ---
-    lightboxContent.addEventListener('click', function(e) {
-        // Check if the click is on an example button within the lightbox
-        const exampleButton = e.target.closest('.example-button');
-        if (exampleButton) {
-            e.preventDefault();
-            const projectFile = exampleButton.dataset.project;
-            openLightbox(projectFile, 'project');
-        }
-    });
 
     // --- Event Listeners ---
     splitLeft.addEventListener('click', (e) => handleSplitClick(e, 'left'));
@@ -168,22 +210,16 @@ document.addEventListener('DOMContentLoaded', function() {
         contactTrigger.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            openContactPanel();
+            if (window.innerWidth > 992) openContactPanel();
         });
     }
 
-    // --- MODIFICATION ICI ---
-    // Gère le scroll pour ouvrir ET fermer la section contact
     window.addEventListener('wheel', (e) => { 
-        if (window.innerWidth <= 992) return; // Ne rien faire sur mobile
-
-        // Condition pour OUVRIR la section contact avec un scroll-down
+        if (window.innerWidth <= 992) return;
         if (!mainContainer.classList.contains('view-active') && !hasScrolledForContact && e.deltaY > 0) { 
             openContactPanel(); 
             hasScrolledForContact = true; 
-        } 
-        // Condition pour FERMER la section contact avec un scroll-up
-        else if (mainContainer.classList.contains('contact-is-active') && e.deltaY < 0) {
+        } else if (mainContainer.classList.contains('contact-is-active') && e.deltaY < 0) {
             closeActiveView();
         }
     });
@@ -192,19 +228,16 @@ document.addEventListener('DOMContentLoaded', function() {
         arrow.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            closeActiveView();
+            if (window.innerWidth > 992) closeActiveView();
         });
     });
 
-    // Handle clicks outside the active contact section to close it
     document.addEventListener('click', (e) => {
-        // Check if the contact section is active and the click is outside of it
-        if (mainContainer.classList.contains('contact-is-active') && !contactSection.contains(e.target) && e.target !== contactTrigger) {
+        if (mainContainer.classList.contains('contact-is-active') && !contactSection.contains(e.target) && e.target !== contactTrigger && window.innerWidth > 992) {
             closeActiveView();
         }
     });
     
-    // --- Contact Form Logic ---
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -214,16 +247,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const buttonText = submitButton.querySelector('.btn-text');
             const spinner = submitButton.querySelector('.spinner-border');
             const successMessage = document.getElementById('success-message');
-
             buttonText.textContent = 'Envoi en cours...';
             spinner.classList.remove('d-none');
             submitButton.disabled = true;
-
             fetch(makeWebhookURL, { method: 'POST', body: formData })
-            .then(response => { 
-                if (!response.ok) throw new Error('La soumission a échoué.');
-                return response.text();
-            })
+            .then(response => { if (!response.ok) throw new Error('La soumission a échoué.'); return response.text(); })
             .then(data => {
                 contactForm.classList.add('d-none');
                 successMessage.classList.remove('d-none');
@@ -239,249 +267,112 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Project Links & Lightbox Logic ---
     projectLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 992) {
-                const projectFile = link.getAttribute('href');
-                link.href = `project-viewer.html?project=${encodeURIComponent(projectFile)}`;
-            } else {
-                e.preventDefault();
-                openLightbox(link.getAttribute('href'), 'project');
-            }
+            e.preventDefault();
+            openLightbox(link.getAttribute('href'), 'project');
         });
     });
 
-    // Video Services Section Functionality - Nouvelle structure avec feature buttons
     const featureButtons = document.querySelectorAll('.feature-button');
     const serviceDetailContents = document.querySelectorAll('.service-detail-content');
-    const defaultVideoContent = document.getElementById('default-video-content');
-
-    // Function to show default content
-    function showDefaultVideoContent() {
-        featureButtons.forEach(fb => fb.classList.remove('active')); // Deactivate all buttons
-        serviceDetailContents.forEach(sdc => {
-            sdc.classList.remove('active');
-        });
-        if (defaultVideoContent) {
-            defaultVideoContent.classList.add('active');
-        }
-        // Set first button as active by default
-        if (featureButtons.length > 0) {
-            featureButtons[0].classList.add('active');
-        }
-    }
-
-    // Function to switch service content
     function switchServiceContent(serviceType) {
-        // Remove active class from all feature buttons and detail contents
         featureButtons.forEach(fb => fb.classList.remove('active'));
-        serviceDetailContents.forEach(sdc => {
-            sdc.classList.remove('active');
-        });
-
-        // Add active class to clicked feature button
+        serviceDetailContents.forEach(sdc => sdc.classList.remove('active'));
         const activeButton = document.querySelector(`[data-service="${serviceType}"]`);
-        if (activeButton) {
-            activeButton.classList.add('active');
-        }
-
-        // Show corresponding detail content
+        if (activeButton) activeButton.classList.add('active');
         const targetContent = document.getElementById(`${serviceType}-content`);
-        if (targetContent) {
-            targetContent.classList.add('active');
-        }
-
-        // Change the service image based on the selected service
+        if (targetContent) targetContent.classList.add('active');
         const serviceImage = document.getElementById('service-image');
         if (serviceImage) {
-            let imageSrc = 'images/generique/video-bg01.jpg'; // Image par défaut
-            
-            switch(serviceType) {
-                case 'evenementiel':
-                    imageSrc = 'images/generique/video-event01.jpg';
-                    break;
-                case 'creatif':
-                    imageSrc = 'images/generique/video-creatif01.jpg';
-                    break;
-                case 'pedagogique':
-                    imageSrc = 'images/generique/video-pedagogique01.jpg';
-                    break;
-                case 'corporatif':
-                    imageSrc = 'images/generique/video-corpo01.jpg';
-                    break;
-            }
-            
-            serviceImage.src = imageSrc;
+            let imageMap = {
+                'evenementiel': 'images/generique/video-event01.jpg',
+                'creatif': 'images/generique/video-creatif01.jpg',
+                'pedagogique': 'images/generique/video-pedagogique01.jpg',
+                'corporatif': 'images/generique/video-corpo01.jpg',
+            };
+            serviceImage.src = imageMap[serviceType] || 'images/generique/video-bg01.jpg';
         }
     }
-
-    // Initialize with first service (evenementiel) active
     if (featureButtons.length > 0) {
-        const firstService = featureButtons[0].dataset.service;
-        switchServiceContent(firstService);
+        switchServiceContent(featureButtons[0].dataset.service);
     }
-
-    // Add event listeners to feature buttons
     featureButtons.forEach(button => {
         button.addEventListener('click', function(event) {
             event.preventDefault();
-            const serviceType = this.dataset.service;
-            switchServiceContent(serviceType);
+            switchServiceContent(this.dataset.service);
         });
     });
 
-    // --- CTA Buttons Logic ---
-    const ctaContactButtons = document.querySelectorAll('.cta-button');
-    const serviceContactButtons = document.querySelectorAll('.service-buttons .btn[href="#contact-section"]');
-
-    // Function to handle contact button clicks
+    const ctaContactButtons = document.querySelectorAll('.cta-button, .service-buttons .btn[href="#contact-section"]');
     function handleContactButtonClick(e) {
         e.preventDefault();
-
+        e.stopPropagation();
         if (window.innerWidth > 992) {
             closeActiveView();
-            setTimeout(() => {
-                openContactPanel();
-            }, 800);
+            setTimeout(() => { openContactPanel(); }, 800);
         } else {
-            const contactElem = document.getElementById('contact-section');
-            if (contactElem) {
-                contactElem.scrollIntoView({ behavior: 'smooth' });
-            }
+            closeMobileView();
+            setTimeout(() => { openMobileView('contact'); }, 600);
         }
     }
-
-    // Apply to CTA buttons
     ctaContactButtons.forEach(button => {
         button.addEventListener('click', handleContactButtonClick);
     });
 
-    // Apply to service contact buttons
-    serviceContactButtons.forEach(button => {
-        button.addEventListener('click', handleContactButtonClick);
-    });
-
-    // --- Lightbox Close Logic ---
     lightboxClose.addEventListener('click', closeLightbox);
-    lightboxContainer.addEventListener('click', (e) => { 
-        if (e.target === lightboxContainer) closeLightbox(); 
-    });
+    lightboxBackButton.addEventListener('click', closeLightbox);
+    lightboxContainer.addEventListener('click', (e) => { if (e.target === lightboxContainer) closeLightbox(); });
     
     document.addEventListener('keydown', (e) => {
-        // Check if the lightbox is open; if so, only 'Escape' should close it.
         if (lightboxContainer.classList.contains('is-visible')) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
-            return; // Prevent other key actions when lightbox is open
+            if (e.key === 'Escape') closeLightbox();
+            return;
         }
-
-        const isLeftActive = mainContainer.classList.contains('left-is-active');
-        const isRightActive = mainContainer.classList.contains('right-is-active');
-        const isContactActive = mainContainer.classList.contains('contact-is-active');
         const isViewActive = mainContainer.classList.contains('view-active');
-
-        // Prevent default scrolling behavior for arrow keys and escape
-        if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'Escape'].includes(e.key)) {
-            e.preventDefault();
-        }
-
-        // Logic for main screen (no section active)
+        if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'Escape'].includes(e.key)) e.preventDefault();
         if (!isViewActive) {
-            switch (e.key) {
-                case 'ArrowLeft':
-                    mainContainer.classList.add('left-is-active', 'view-active');
-                    languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
-                    break;
-                case 'ArrowRight':
-                    mainContainer.classList.add('right-is-active', 'view-active');
-                    languageSwitcher.classList.add('switcher-hidden'); // Hide language switcher
-                    break;
-                case 'ArrowDown':
-                    openContactPanel();
-                    // languageSwitcher.classList.add('switcher-hidden'); // The user wants this removed
-                    break;
-            }
-        }
-        // Logic when a section is active
-        else {
-            if (isLeftActive) { // Techno section is active
-                switch (e.key) {
-                    case 'ArrowRight':
-                    case 'Escape':
-                        closeActiveView();
-                        break;
-                }
-            } else if (isRightActive) { // Video section is active
-                switch (e.key) {
-                    case 'ArrowLeft':
-                    case 'Escape':
-                        closeActiveView();
-                        break;
-                }
-            } else if (isContactActive) { // Contact section is active
-                switch (e.key) {
-                    case 'ArrowUp':
-                    case 'Escape':
-                        closeActiveView();
-                        break;
-                }
-            }
+            if (e.key === 'ArrowLeft') mainContainer.classList.add('left-is-active', 'view-active');
+            else if (e.key === 'ArrowRight') mainContainer.classList.add('right-is-active', 'view-active');
+            else if (e.key === 'ArrowDown') openContactPanel();
+        } else {
+            if (e.key === 'Escape') closeActiveView();
+            else if (mainContainer.classList.contains('left-is-active') && e.key === 'ArrowRight') closeActiveView();
+            else if (mainContainer.classList.contains('right-is-active') && e.key === 'ArrowLeft') closeActiveView();
+            else if (mainContainer.classList.contains('contact-is-active') && e.key === 'ArrowUp') closeActiveView();
         }
     });
-    // --- Set Current Year in Footer ---
+    
     const yearSpan = document.getElementById('current-year');
-    if (yearSpan) {
-        yearSpan.textContent = new Date().getFullYear();
-    }
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    
+    initMobileInteractions();
 });
+
 // --- ANIMATION DU PANNEAU DE CRÉDIBILITÉ ---
 document.addEventListener('DOMContentLoaded', () => {
     const credibilityPanel = document.getElementById('credibility-panel');
-
-    // S'assure que le panneau existe avant de continuer
     if (!credibilityPanel) return;
-
     const animateCountUp = (el) => {
         const target = parseInt(el.dataset.target, 10);
-        const duration = 2000; // Durée de l'animation en ms
         let startTime = null;
-
         const step = (currentTime) => {
             if (!startTime) startTime = currentTime;
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            let currentValue = Math.floor(progress * target);
-            
-            // Ajoute le signe '+' et formate le nombre si nécessaire
-            el.textContent = `+${currentValue.toLocaleString('fr-FR')}`;
-
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            } else {
-                 el.textContent = `+${target.toLocaleString('fr-FR')}`;
-            }
+            const progress = Math.min((currentTime - startTime) / 2000, 1);
+            el.textContent = `+${Math.floor(progress * target).toLocaleString('fr-FR')}`;
+            if (progress < 1) window.requestAnimationFrame(step);
+            else el.textContent = `+${target.toLocaleString('fr-FR')}`;
         };
         window.requestAnimationFrame(step);
     };
-
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Ajoute la classe pour l'animation de fondu/translation
                 entry.target.classList.add('is-visible');
-                
-                // Lance l'animation de comptage pour chaque chiffre
-                const counters = entry.target.querySelectorAll('.stat-value');
-                counters.forEach(counter => animateCountUp(counter));
-                
-                // Arrête d'observer une fois l'animation lancée
+                entry.target.querySelectorAll('.stat-value').forEach(animateCountUp);
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.2 // Déclenche quand 20% du panneau est visible
-    });
-
+    }, { threshold: 0.2 });
     observer.observe(credibilityPanel);
 });

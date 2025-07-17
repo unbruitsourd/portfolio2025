@@ -35,12 +35,13 @@
 /* Responsive adjustments for mobile */
 @media (max-width: 992px) {
     #language-switcher {
-        position: static;
-        transform: none;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-        font-size: 1rem;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10; /* Above the landing page, below panels */
+        padding: 8px 15px;
+        font-size: 0.9rem;
     }
 }
 
@@ -57,7 +58,8 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: 'Lato', sans-serif;
-    overflow: hidden; /* Controls main scroll behavior for desktop */
+    overflow-x: hidden; /* Empêche le défilement horizontal indésirable par défaut */
+    overflow-y: auto;   /* Permet le défilement vertical par défaut sur toutes les pages */
     background-color: #ffffff;
 }
 
@@ -355,7 +357,7 @@ p {
     pointer-events: none;
 }
 #techno .back-arrow { right: 2rem; color: #343a40; }
-#video .back-arrow { left: 2rem; color: #343a40; }
+#video .back-arrow { left: 2rem; color: #ffffff; }
 
 /* Show back arrow when a split is active */
 .landing-container.left-is-active #techno .back-arrow, 
@@ -450,21 +452,41 @@ p {
 }
 
 /* --- Contact Footer inside Contact Section --- */
+/* Styles communs pour le footer */
 .contact-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     text-align: center;
     padding: 1rem 0;
     font-size: 0.8rem;
     color: #6c757d;
-    background-color: #f8f9fa; /* Match contact section background */
-    z-index: 2; /* Ensure it's above other content if anything overlaps */
+    z-index: 2;
+}
+
+/* Styles pour la version BUREAU */
+@media (min-width: 993px) {
+    .contact-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa; /* On s'assure qu'il a le bon fond */
+    }
+    
+    /* On ajoute un padding en bas de la section contact pour ne pas que le footer cache le formulaire */
+    #contact-section .container-fluid {
+        padding-bottom: 5rem; /* Espace pour le footer */
+    }
+}
+
+/* Styles pour la version MOBILE */
+@media (max-width: 992px) {
+    #contact-section .contact-footer {
+        background-color: transparent; /* Sur mobile, il est dans le flux, pas besoin de fond */
+        padding-top: 2rem; /* Un peu plus d'espace au-dessus sur mobile */
+    }
 }
 
 .contact-footer p {
-    margin: 0;
+    margin: 0px;
     font-size: 0.8rem; /* Explicitly setting font size for paragraphs within contact-footer */
 }
 /* --- Lightbox Styles --- */
@@ -807,9 +829,6 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     text-decoration: none;
     font-size: 0.9rem;
 }
-.project-thumb .stretched-link i { 
-    transition: transform 0.2s ease; 
-}
 .project-thumb:hover .stretched-link i { transform: translateX(5px); }
 
 /* --- Video Section Specific Styles --- */
@@ -821,7 +840,7 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     position: relative;
     height: 60vh;
     color: #ffffff;
-    background-image: url('images/generique/video-bg01.jpg');
+    background-image: url('images/generique/david-guillemette-tournage-espagne-documentaire.jpg');
     background-size: cover;
     background-position: left center;
     display: flex;
@@ -958,9 +977,8 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 
 .video-service-content {
     padding: 2rem;
-    position: relative; /* Establish positioning context for absolute children */
-    min-height: 300px; /* Adjust as needed based on max content height */
-    overflow: hidden; /* Hide overflowing content during transitions */
+    position: relative; 
+    /* min-height et overflow sont enlevés */
 }
 
 .service-tagline {
@@ -973,25 +991,19 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 }
 
 .service-detail-content {
-    position: absolute; /* Take out of normal document flow */
-    top: 0;
-    left: 0;
-    width: 100%;
-    visibility: hidden;
+    /* position: absolute et les styles associés sont enlevés */
+    display: none; /* Caché par défaut */
+    /* Les styles de transition sont conservés pour l'animation */
     opacity: 0;
-    transform: translateY(10px); /* Initial state for slide-in */
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0.4s;
-    pointer-events: none;
-    z-index: 1; /* Default z-index */
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .service-detail-content.active {
-    visibility: visible;
+    display: block; /* Affiche l'élément et lui permet de définir la hauteur */
     opacity: 1;
-    transform: translateY(0); /* Final state for slide-in */
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: auto;
-    z-index: 2; /* Bring active content to front */
+    transform: translateY(0);
+    /* Les autres styles restent pour l'animation */
 }
 
 .service-detail-content h4 {
@@ -1043,46 +1055,6 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
     color: #343a40;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(181, 200, 183, 0.3);
-}
-
-/* Responsive adjustments for mobile */
-@media (max-width: 992px) {
-    .video-features-buttons {
-        flex-direction: row; /* Allow items to flow in a row */
-        flex-wrap: wrap; /* Wrap to the next line */
-        justify-content: center; /* Center items in the row */
-        align-items: flex-start; /* Align items to the start of the cross axis, if needed */
-        margin-top: 2rem; /* Adjusted spacing */
-        margin-bottom: 2rem; /* Adjusted spacing */
-    }
-    
-    .feature-button {
-        width: calc(50% - 1rem); /* Two buttons per row with a gap */
-        max-width: none; /* Remove max-width constraint for 2x2 layout */
-        margin-bottom: 1rem; /* Add bottom margin for vertical spacing in the grid */
-    }
-    
-    .video-services-new-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .video-service-image {
-        min-height: 250px;
-        padding: 1.5rem;
-    }
-    
-    .video-service-content {
-        padding: 1.5rem;
-    }
-    
-    .service-buttons {
-        flex-direction: column;
-    }
-    
-    .service-buttons .btn {
-        width: 100%;
-    }
 }
 
 /* --- CTA Section Styles --- */
@@ -1164,121 +1136,200 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 
 /* --- Mobile Styles --- */
 @media (max-width: 992px) {
-    html { scroll-behavior: smooth; }
-    body, html { 
-        overflow-x: hidden;
-        overflow-y: auto;
-        height: auto;
+    /* Base setup for interactive mobile view */
+    html, body {
+        overflow: hidden; /* Prevent native scroll */
+        height: 100%;
     }
 
-    #mobile-landing {
+    /* Hide the old static mobile landing, we're making the main view interactive */
+    #mobile-landing { display: none !important; }
+
+    /* Main container becomes a flex column */
+    .landing-container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
         height: 100vh;
-        padding: 1.5rem;
-        background-color: #343a40;
-        color: white;
+        width: 100vw;
+        position: relative;
     }
 
-    .center-text-container, 
-    .back-arrow, 
-    .landing-container .video-wrapper, 
-    .landing-container .overlay-text, 
-    .landing-container::after { 
-        display: none !important; 
-    }
+/* Splits are now the top and bottom trigger zones */
+.split {
+    width: 100% !important;
+    height: 50% !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+    position: relative; /* For z-index stacking */
+    /* Ajout des propriétés de base pour l'image de fond */
+    background-size: cover;
+    background-position: center;
+}
 
-    .landing-container { 
-        flex-direction: column;
-        height: auto; 
-        display: block;
-    }
-    .split { 
-        width: 100% !important;
-        height: auto; 
-        padding: 0;
-        background-color: #f8f9fa !important;
-        color: #343a40;
-        scroll-margin-top: 2rem;
-    }
+/* NOUVEAU: Ajout d'une surcouche sombre pour la lisibilité */
+.split::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
 
-    .portfolio-content {
-        position: static;
+/* Assign background images instead of colors */
+#techno { background-image: url('images/bg_techno.png'); }
+#video { background-image: url('images/bg_video.png'); }
+
+/* Hide background images and the radial gradient overlay on mobile landing */
+.split .video-wrapper,
+.landing-container::after {
+    display: none !important;
+}
+
+/* Show and style the overlay text for the landing page */
+.split .overlay-text {
+    opacity: 1;
+    pointer-events: auto;
+    color: #ffffff; /* MODIFIÉ: Texte en blanc */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6); /* AJOUT: Ombre pour lisibilité */
+    text-align: center;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease;
+    z-index: 2; /* AJOUT: S'assure que le texte est au-dessus de la surcouche */
+}
+    .split .overlay-text .title-main { font-size: 2.2rem; font-weight: 400; padding-left: 20px; padding-right: 20px;}
+    .split .overlay-text .title-sub { font-size: 3rem; font-weight: 900; padding-left: 20px; padding-right: 20px;}
+    
+    /* Central logo/contact trigger */
+    .center-text-container {
         opacity: 1;
         pointer-events: auto;
+        z-index: 15; /* Above the splits */
+    }
+    .center-text-link {
+        padding: 5px 30px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+    .central-logo {
+        max-width: 315px;
+        height: 150px;
+    }
+
+    /* --- Panel States & Transitions --- */
+
+    /* The content panels that slide in */
+    .portfolio-content {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+        z-index: 20;
+        transform: translateX(100%); /* Default start off-screen right */
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        opacity: 1;
+        pointer-events: none;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         padding: 0;
-        display: block;
-        transition: none;
+        display: block; /* Override flex from desktop */
     }
+    #techno .portfolio-content { transform: translateX(-100%); } /* Techno comes from left */
+    #video .portfolio-content { transform: translateX(100%); }   /* Video comes from right */
 
-    .portfolio-grid {
-        display: flex;
-        flex-direction: column;
-        transform: none;
-        gap: 2.5rem;
-    }
-
-    #video, #techno {
-        background-color: #ffffff !important;
-        justify-content: flex-start;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    
-    .scrollable-content { 
-        height: auto; 
-        overflow-y: visible; 
-        padding: 0; 
-    }
-
+    /* Contact section slides from bottom */
     #contact-section {
-        position: static;
-        height: auto;
-        transform: none;
-        padding: 4rem 1.5rem;
-        background-color: #f8f9fa;
-        color: #343a40;
-        scroll-margin-top: 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateY(100%);
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 20;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 2rem 1.5rem 2rem 1.5rem; /* Add padding for content and footer */
         display: block;
     }
-    #contact-section .back-arrow, #lightbox-container { 
-        display: none !important; 
+
+    /* --- CORRECTED RULES START --- */
+    /* When a view is active, only hide the landing screen elements, not the entire split sections */
+    .landing-container.view-active .center-text-container,
+    .landing-container.view-active .split .overlay-text {
+        opacity: 0;
+        pointer-events: none;
     }
-    .portrait { margin-top: 2rem; }
-    .project-info-container { padding: 1.5rem; }
-    
-    /* --- Styles Mobile pour les sections Hero --- */
-    .techno-hero-section,
-    .video-hero-section {
+    /* --- CORRECTED RULES END --- */
+
+    /* Active states to bring panels into view */
+    .landing-container.mobile-techno-active #techno .portfolio-content,
+    .landing-container.mobile-video-active #video .portfolio-content,
+    .landing-container.mobile-contact-active #contact-section {
+        transform: translate(0, 0);
+        pointer-events: auto;
+    }
+
+    /* Back arrow for closing panels */
+    .back-arrow {
+        position: fixed; /* Use fixed to keep it in place on scroll */
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 25; /* Above content panels */
+        font-size: 2rem;
+        color: #343a40;
+        opacity: 1;
+        pointer-events: auto;
+        display: block !important; /* Ensure it's visible */
+    }
+    #techno .back-arrow { right: 1.5rem; }
+    #video .back-arrow { left: auto; right: 1.5rem; } /* Both on the right */
+    #contact-section .back-arrow { right: 1.5rem; }
+
+    /* --- Adjustments for content inside panels --- */
+    .scrollable-content {
         height: auto;
-        min-height: 50vh;
-        padding: 4rem 1.5rem;
+        overflow-y: visible;
+        padding: 0;
+    }
+    .techno-hero-section, .video-hero-section {
+        height: auto;
+        min-height: 40vh;
+        padding: 3rem 1.5rem;
         text-align: center;
         justify-content: center;
     }
-    .techno-hero-section::before,
-    .video-hero-section::before {
+    .hero-text-content,
+.techno-hero-section .hero-text-content {
+    max-width: 100% !important; /* On force la priorité pour être sûr */
+    padding: 0;
+}
+    .techno-hero-section::before, .video-hero-section::before {
         background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
     }
-    .hero-text-content {
-        max-width: 100%;
-        padding: 0;
+
+    .techno-content-wrapper, .video-content-wrapper { padding: 2rem 1.5rem; }
+    .portfolio-grid { flex-direction: column; gap: 2rem; }
+    .video-services-new-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .feature-button { width: calc(50% - 0.5rem); }
+    #contact-section .col-lg-4, #contact-section .col-lg-6 { text-align: center; }
+    #contact-section .row { align-items: flex-start; }
+
+    /* Hide lightbox on mobile, as project-viewer.html is used */
+    #lightbox-container { display: none !important; }
+
+    #language-switcher.switcher-hidden {
+        /* Keep it visible when panels are open */
+        transform: translate(-50%, 0);
     }
-    .techno-content-wrapper,
-    .video-content-wrapper {
-        padding: 4rem 1.5rem;
-    }
-    .video-services-section {
-        padding: 0;
-    }
-    
-    .cta-section {
-        padding: 4rem 0;
-    }
-	
 }
 /* --- Web Development Section Styles --- */
 .web-dev-section {
@@ -1512,4 +1563,170 @@ body.lightbox-open { overflow: hidden; } /* Prevents body scroll when lightbox i
 .video-services-new-grid > .video-service-content > h4 {
     font-size: 1.5rem;
     color: #343a40;
+}
+
+/* --- Lightbox Mobile Adjustments --- */
+@media (max-width: 992px) {
+    /* Assure que la lightbox est bien affichée, même si elle était cachée avant */
+    #lightbox-container {
+        display: flex !important;
+    }
+
+    /* Fait en sorte que le contenu de la lightbox prenne tout l'écran */
+    #lightbox-content {
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        transform: scale(1) !important; /* Annule l'effet de zoom de la version desktop */
+    }
+
+    /* Positionne le bouton de fermeture en haut à droite de l'écran */
+    #lightbox-close {
+        position: fixed; /* Fixe par rapport à la fenêtre */
+        top: 1rem;
+        right: 1.5rem;
+        z-index: 1070; /* Au-dessus du contenu de la lightbox */
+        font-size: 2rem;
+    }
+
+    /* Ajoute un peu d'espace pour que le contenu ne colle pas aux bords */
+    .project-details {
+        padding: 1.5rem !important;
+    }
+}
+/* --- Lightbox Header --- */
+.lightbox-header {
+    display: none; /* Caché par défaut */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    z-index: 1065; /* Au-dessus du contenu, en dessous du bouton X */
+    text-align: right;
+}
+
+/* --- Mobile-Specific Lightbox Adjustments --- */
+@media (max-width: 992px) {
+    /* ... (vos styles mobiles existants pour la lightbox) ... */
+
+    /* AFFICHE LE HEADER et cache le X sur mobile */
+    .lightbox-header {
+        display: block; /* Affiche le header sticky */
+    }
+    #lightbox-close {
+        display: none !important; /* Cache le bouton "X" */
+    }
+
+    /* AJOUTE DE L'ESPACE pour le header sticky */
+    #lightbox-content {
+        /* Calcule la hauteur du header (padding + hauteur de ligne) ~65px */
+        padding-top: 80px;
+    }
+}
+@media (max-width: 992px) {
+    .techno-credibility-panel {
+        opacity: 1;
+        transform: none;
+        transition: none; /* On désactive aussi la transition pour éviter tout délai */
+    }
+}
+@media (max-width: 992px) {
+    .video-service-image {
+        padding: 1rem; /* On réduit le padding */
+        min-height: auto; /* On annule la hauteur minimale qui n'est plus nécessaire */
+    }
+}
+/* --- Ajustement de la position du titre sur mobile --- */
+@media (max-width: 992px) {
+    #techno .overlay-text {
+        transform: translateY(-2rem); /* Remonte le titre de 2rem (32px) */
+    }
+}
+/* Styles pour les carrousels dans la lightbox */
+.project-hero.carousel {
+    position: relative;
+    width: 100%;
+    /* On utilise l'astuce du padding pour forcer un ratio 16:9 */
+    padding-top: 56.25%; /* 9 / 16 = 0.5625 */
+    height: 0; /* La hauteur est maintenant gérée par le padding */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden; /* Cache tout ce qui pourrait déborder */
+    background-color: #000;
+}
+
+/* On positionne le contenu du carrousel de manière absolue à l'intérieur */
+.project-hero.carousel .carousel-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* On s'assure que l'item actif prend toute la place */
+.project-hero.carousel .carousel-item.active {
+    height: 100%;
+}
+
+/* Les images et vidéos prennent maintenant 100% de la hauteur ET de la largeur */
+.project-hero.carousel .carousel-item img,
+.project-hero.carousel .modal-video-container {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garde le 'cover' pour les images pour un rendu propre */
+}
+/* S'assure que le lien de retour prévu pour les pages autonomes est masqué lorsqu'il est chargé dans la lightbox. */
+#lightbox-content .manual-back-link {
+    display: none !important; /* Force le masquage pour annuler les règles Bootstrap si nécessaire */
+}
+/* --- Mise en page pour les pages de projet autonomes --- */
+/* Applique des marges latérales et une largeur maximale au conteneur principal des projets
+   lorsqu'il n'est PAS dans la lightbox (car le body n'a PAS la classe .lightbox-open). */
+body:not(.lightbox-open) .project-info-container {
+    max-width: 1200px; /* Limite la largeur du contenu pour une meilleure lisibilité sur grands écrans */
+    margin: 0 auto;    /* Centre le conteneur horizontalement */
+    padding: 2rem;     /* Ajoute un padding général autour du contenu pour éviter qu'il ne touche les bords */
+    background-color: #ffffff; /* S'assure que le fond est blanc sous le contenu */
+    border-radius: 8px; /* Ajoute un léger arrondi pour un aspect plus doux */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); /* Ajoute une subtile ombre */
+    margin-top: 3rem; /* Espace le contenu du haut de la page (du bouton "Retour") */
+    margin-bottom: 3rem; /* Espace le contenu du bas de la page */
+}
+
+/* Ajustements responsives pour les pages de projet autonomes sur mobile (non lightbox) */
+@media (max-width: 992px) {
+    body:not(.lightbox-open) .project-info-container {
+        max-width: 100%; /* Reprend toute la largeur sur mobile */
+        padding: 1.5rem; /* Réduit le padding sur mobile pour mieux utiliser l'espace */
+        margin-top: 1rem; /* Réduit la marge supérieure sur mobile */
+        margin-bottom: 1rem; /* Réduit la marge inférieure sur mobile */
+        border-radius: 0; /* Pas d'arrondi sur les bords sur mobile pour occuper toute la largeur */
+        box-shadow: none; /* Pas d'ombre sur mobile si la page prend toute la largeur */
+    }
+    
+    /* Le bouton de retour manuel doit être visible sur les pages autonomes mobiles */
+    .manual-back-link.d-none {
+        display: block !important; /* Force l'affichage sur mobile si la page est autonome */
+        position: sticky; /* Rendre le bouton sticky pour qu'il suive le scroll */
+        top: 1rem; /* Positionne le bouton sticky en haut */
+        left: 1rem; /* Positionne le bouton sticky à gauche */
+        z-index: 100; /* Assure qu'il est au-dessus du contenu */
+        background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour la lisibilité */
+        backdrop-filter: blur(5px); /* Effet de flou */
+        -webkit-backdrop-filter: blur(5px); /* Pour Safari */
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Ajustement de la couleur pour le bouton "Retour au portfolio" sur mobile autonome */
+    body:not(.lightbox-open) .manual-back-link {
+        color: #343a40; /* Couleur du texte pour qu'il soit lisible */
+        border-color: #dee2e6; /* Couleur de la bordure */
+    }
 }
