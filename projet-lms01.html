@@ -1,41 +1,101 @@
-<div class="project-info-container">
-    <!-- HERO SECTION (Image Only) -->
-    <div class="project-hero">
-        <img src="images\techno\lms-ipsc.png" class="project-hero-img" data-key="lms_ipsc_image_alt" data-attr="alt">
-        <div class="project-hero-overlay"></div>
-    </div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <!-- BALISES SEO UNIQUES POUR CETTE PAGE -->
+    <title>Portail de Formation LMS de l'IPSC | Portfolio David Guillemette</title>
+    <meta name="description" content="Étude de cas sur la conception et le développement du portail de formation (LMS) de l'Institut de pédiatrie sociale en communauté. Une plateforme e-learning complète et bilingue.">
+    
+    <!-- Open Graph / Twitter Cards -->
+    <meta property="og:title" content="Portail de Formation LMS de l'IPSC | Portfolio David Guillemette" />
+    <meta property="og:description" content="Étude de cas sur la conception et le développement du portail de formation (LMS) de l'Institut de pédiatrie sociale en communauté." />
+    <meta property="og:image" content="https://votredomaine.com/images/techno/lms-ipsc.png" />
+    <meta property="og:url" content="https://votredomaine.com/projet-lms01.html" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image:alt" content="Aperçu de la plateforme de formation de l'IPSC" />
 
-    <!-- TITLE BLOCK -->
-    <div class="project-title-block bg-light text-center py-4">
-        <h2 data-key="lms_ipsc_hero_titre"></h2>
-        <p class="lead mb-0" data-key="lms_ipsc_hero_sous_titre"></p>
-    </div>
+    <!-- Liens vers les styles et scripts globaux -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
+    
+    <!-- Données structurées (Schema.org) pour le projet -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["WebSite", "SoftwareApplication"],
+      "name": "Portail de formation de l'Institut de pédiatrie sociale en communauté",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Une plateforme de formation en ligne (LMS) sur mesure pour les professionnels de la pédiatrie sociale, offrant des cours, des ressources et des espaces collaboratifs.",
+      "author": {
+        "@type": "Person",
+        "name": "David Guillemette"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Institut de pédiatrie sociale en communauté"
+      }
+    }
+    </script>
+</head>
+<body>
+    <!-- Bouton de retour -->
+    <a href="/index.html" class="manual-back-link btn btn-secondary mt-3 ms-3 d-none d-lg-block">
+        <i class="bi bi-arrow-left"></i> Retour au portfolio
+    </a>
 
-    <!-- DETAILS SECTION -->
-    <div class="project-details p-4 p-lg-5">
-        <div class="row g-5">
-            <div class="col-lg-7">
-                <h4 data-key="lms_ipsc_defi_titre"></h4>
-                <p data-key="lms_ipsc_defi_p"></p>
-                
-                <!-- BOUTON AJOUTÉ -->
-                <a href="https://institutpediatriesociale.com" target="_blank" class="cta-button mt-4">
-                    <span data-key="lms_ipsc_bouton_visite">Visiter le site web</span> <i class="bi bi-arrow-right ms-2"></i>
-                </a>
-            </div>
-            <div class="col-lg-5">
-                <h5 data-key="lms_ipsc_caracteristiques_titre"></h5>
-                <ul class="list-group list-group-flush mb-4">
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item1"></li>
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item2"></li>
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item3"></li>
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item4"></li>
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item5"></li>
-                    <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item6"></li>
-                </ul>
-                <h5 data-key="lms_ipsc_technologies_titre"></h5>
-                <p data-key="lms_ipsc_technologies_p"></p>
+    <div class="project-info-container">
+        <!-- HERO SECTION (Image) -->
+        <div class="project-hero">
+            <img src="images/techno/lms-ipsc.png" class="project-hero-img" alt="Aperçu de la plateforme de formation de l'IPSC, montrant un tableau de bord de cours." data-key="lms_ipsc_image_alt" data-attr="alt">
+            <div class="project-hero-overlay"></div>
+        </div>
+
+        <!-- TITLE BLOCK -->
+        <div class="project-title-block bg-light text-center py-4">
+            <h1 data-key="lms_ipsc_hero_titre">Portail de formation de l'Institut de pédiatrie sociale en communauté</h1>
+            <p class="lead mb-0" data-key="lms_ipsc_hero_sous_titre">Un environnement d'apprentissage sur mesure et puissant pour les professionnel·les en pédiatrie sociale en communauté.</p>
+        </div>
+
+        <!-- DETAILS SECTION -->
+        <div class="project-details p-4 p-lg-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <h4 data-key="lms_ipsc_defi_titre">Le Défi</h4>
+                    <p data-key="lms_ipsc_defi_p">Créer bien plus qu'une simple boutique de cours : bâtir la plateforme de référence bilingue pour la formation en pédiatrie sociale en communauté (PSC). Le défi était de concevoir un écosystème centralisé qui intègre des modalités d'apprentissage variées (e-learning, webinaires, balados), favorise le social learning via des espaces de discussion, et offre une expérience utilisateur personnalisée et intuitive, tout en servant de lieu de rencontre pour les professionnels et en affirmant la crédibilité de l'IPSC à l'échelle mondiale.</p>
+                    
+                    <h4 class="mt-4" data-key="lms_ipsc_solution_titre">Ma Solution</h4>
+                    <p data-key="lms_ipsc_solution_p">En m'appuyant sur un écosystème WordPress robuste, j'ai architecturé une solution intégrée utilisant LearnDash pour la gestion des cours, BuddyBoss pour les fonctionnalités de communauté et de social learning, et WooCommerce pour la vente de formations. Un système d'automatisation puissant a été implanté pour gérer les tâches administratives et les communications. Le résultat est une plateforme centralisée, évolutive et engageante, avec des profils d'apprenants personnalisés, une bibliothèque de ressources, des forums de discussion, et un nouvel espace dédié à la recherche, le tout présenté avec un design clair et une arborescence de contenu optimisée pour un accès rapide à l'information.</p>
+                    
+                    <a href="https://institutpediatriesociale.com" target="_blank" rel="noopener noreferrer" class="cta-button mt-4">
+                        <span data-key="lms_ipsc_bouton_visite">Visiter le site web</span> <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                <div class="col-lg-5">
+                    <h5 data-key="lms_ipsc_caracteristiques_titre">Caractéristiques clés</h5>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item1"><i class="bi bi-mortarboard-fill text-success me-2"></i>Système LMS complet avec gestion d'accès et de vente de cours (LearnDash & WooCommerce).</li>
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item2"><i class="bi bi-people-fill text-success me-2"></i>Plateforme de communauté avec profils et forums (BuddyBoss).</li>
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item3"><i class="bi bi-robot text-success me-2"></i>Automatisation des processus administratifs et des communications.</li>
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item4"><i class="bi bi-journal-bookmark-fill text-success me-2"></i>Bibliothèque de ressources et espace dédié à la recherche.</li>
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item5"><i class="bi bi-award-fill text-success me-2"></i>Gestion des certifications et des crédits de formation professionnelle.</li>
+                        <li class="list-group-item" data-key="lms_ipsc_caracteristiques_item6"><i class="bi bi-translate text-success me-2"></i>Entièrement bilingue (français et anglais) via WPML.</li>
+                    </ul>
+                    <h5 data-key="lms_ipsc_technologies_titre">Technologies utilisées</h5>
+                    <p data-key="lms_ipsc_technologies_p">WordPress, BuddyBoss, LearnDash, WooCommerce, Elementor, Uncanny Automator, WPML.</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="translation.js"></script>
+    <script defer src="script.js"></script>
+</body>
+</html>
