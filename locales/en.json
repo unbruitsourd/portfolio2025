@@ -1,8 +1,8 @@
 {
   "global_carousel_precedent": "Previous",
   "global_carousel_suivant": "Next",
-  "global_copyright": "Made with ❤️ in Verdun by <strong> Productions David Guillemette</strong>",
-  "global_doc_titre": "David Guillemette | Video Production & EdTech",
+  "global_copyright": "Made with ❤️ in Verdun, Montreal by <strong> Productions David Guillemette</strong>",
+  "global_doc_titre": "David Guillemette | Video Production & EdTech in Montreal",
   "global_form_bouton_envoi": "Send",
   "global_form_label_courriel": "Your email",
   "global_form_label_message": "Your message",
@@ -23,7 +23,7 @@
 
 
   "index_contact_apropos_p1": "Specializing in video production and the creation of digital learning environments, I design immersive training experiences that combine pedagogy and technological innovation. My expertise ranges from <strong>the complete design of elearning platforms to the production of multimedia content and the integration of interactive resources</strong>.",
-  "index_contact_apropos_p2": "Whether it's developing professionally recognized asynchronous training or producing corporate video content, I support my clients through all phases of their projects, from conceptualization to distribution, relying on a proven ed-tech approach and complete mastery of the audiovisual production chain.",
+  "index_contact_apropos_p2": "Whether it's developing professionally recognized asynchronous training or producing corporate video content, I support my clients in Montreal and throughout Canada in all phases of their projects, from conceptualization to distribution, relying on a proven ed-tech approach and complete mastery of the audiovisual production chain.",
   "index_contact_apropos_titre": "About",
   "index_mobile_nav_contact": "Contact Me",
   "index_mobile_nav_elearning": "E-learning Portfolio",
@@ -145,7 +145,17 @@
   "video_espagne_details_role": "<strong>Role:</strong> Direction, Camera, Editing",
   "video_espagne_details_titre": "Project details",
   "video_espagne_synopsis": "From the green mountains of the Basque Country to the powerful waves of the Costa da Morte in Galicia, northwestern Spain is distinguished by the great variety of its contrasting landscapes as well as the cultural, historical, and culinary richness of its regions. Host to many routes leading to Santiago de Compostela, this part of the country is full of little-known attractions that will please many! Idyllic beaches, sumptuous vineyards, mysterious caves, an emblematic desert, and fascinating castles are just a few examples awaiting Mélissa, David, and Noah in the adventure of this 4th travel film that will guide them down unexpected paths...",
- 
+  "video_espagne_synopsis_titre": "Synopsis",
+  "video_espagne_carousel_titre_image_1": "Picos de Europa Landscape | 'Northern Spain' Film",
+  "video_espagne_carousel_titre_image_2": "San Juan de Gaztelugatxe, iconic Basque Country site",
+  "video_espagne_carousel_titre_image_3": "Bardenas Reales Desert, Navarre",
+  "video_espagne_carousel_titre_image_4": "Loarre Castle, medieval jewel of Aragon",
+  "video_espagne_carousel_titre_image_5": "Monte Igueldo Ferris Wheel, San Sebastián",
+  "video_espagne_carousel_titre_image_6": "Urederra River Springs, Navarre",
+  "video_espagne_carousel_titre_image_7": "Guggenheim Museum and 'Maman' sculpture, Bilbao",
+  "video_espagne_carousel_titre_image_8": "Lizard observed in northern Spain",
+  "video_espagne_carousel_titre_image_9": "Arteaga Castle, Basque Country",
+
     "video_ecosse_titre": "Écosse",
   "video_ecosse_sous_titre": "De beautés et de légendes (2018)",
   "video_ecosse_carousel_alt_image_1": "A hairy Highland Cow with long horns in a lush green landscape of the Scottish Highlands.",
